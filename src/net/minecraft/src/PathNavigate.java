@@ -58,12 +58,12 @@ public class PathNavigate
         pathSearchRange = par3;
     }
 
-    public void setAvoidsWater(boolean par1)
+    public void func_48664_a(boolean par1)
     {
         avoidsWater = par1;
     }
 
-    public boolean getAvoidsWater()
+    public boolean func_48658_a()
     {
         return avoidsWater;
     }
@@ -73,26 +73,17 @@ public class PathNavigate
         canPassClosedWoodenDoors = par1;
     }
 
-    /**
-     * Sets if the entity can enter open doors
-     */
-    public void setEnterDoors(boolean par1)
+    public void func_48663_c(boolean par1)
     {
         canPassOpenWoodenDoors = par1;
     }
 
-    /**
-     * Returns true if the entity can break doors, false otherwise
-     */
-    public boolean getCanBreakDoors()
+    public boolean func_48665_b()
     {
         return canPassClosedWoodenDoors;
     }
 
-    /**
-     * Sets if the path should avoid sunlight
-     */
-    public void setAvoidSun(boolean par1)
+    public void func_48680_d(boolean par1)
     {
         noSunPathfind = par1;
     }
@@ -105,10 +96,7 @@ public class PathNavigate
         speed = par1;
     }
 
-    /**
-     * Sets if the entity can swim
-     */
-    public void setCanSwim(boolean par1)
+    public void func_48669_e(boolean par1)
     {
         canSwim = par1;
     }
@@ -128,10 +116,7 @@ public class PathNavigate
         }
     }
 
-    /**
-     * Try to find and set a path to XYZ. Returns true if successful.
-     */
-    public boolean tryMoveToXYZ(double par1, double par3, double par5, float par7)
+    public boolean func_48666_a(double par1, double par3, double par5, float par7)
     {
         PathEntity pathentity = getPathToXYZ(MathHelper.floor_double(par1), (int)par3, MathHelper.floor_double(par5));
         return setPath(pathentity, par7);
@@ -364,13 +349,10 @@ public class PathNavigate
      */
     private boolean canNavigate()
     {
-        return theEntity.onGround || canSwim && isInFluid();
+        return theEntity.onGround || canSwim && func_48657_k();
     }
 
-    /**
-     * Returns true if the entity is in water or lava, false otherwise
-     */
-    private boolean isInFluid()
+    private boolean func_48657_k()
     {
         return theEntity.isInWater() || theEntity.handleLavaMovement();
     }

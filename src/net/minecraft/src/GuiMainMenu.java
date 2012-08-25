@@ -1,33 +1,20 @@
 package net.minecraft.src;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
-import java.util.Scanner;
-
 import net.minecraft.client.Minecraft;
-
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
 public class GuiMainMenu extends GuiScreen
 {
-    /** The RNG used by ME (Nopoza973) the Main Menu Screen. */
+    /** The RNG used by the Main Menu Screen. */
     private static final Random rand = new Random();
 
     /** Counts the number of screen updates. */
@@ -39,9 +26,6 @@ public class GuiMainMenu extends GuiScreen
 
     /** Timer used to rotate the panorama, increases every tick. */
     private int panoramaTimer;
-    private int strpos = width + 1;
-    private String[] announces;
-    private int announceCount = 0;
 
     /**
      * Texture allocated for the current viewport of the main menu's panorama background.
@@ -52,7 +36,6 @@ public class GuiMainMenu extends GuiScreen
     {
         updateCounter = 0.0F;
         panoramaTimer = 0;
-        strpos = width + 1;
         splashText = "missingno";
 
         try
@@ -96,13 +79,6 @@ public class GuiMainMenu extends GuiScreen
     public void updateScreen()
     {
         panoramaTimer++;
-        if(strpos < 0 - mc.fontRenderer.getStringWidth(announces[announceCount])){
-        	strpos = width + 1;
-        	if(announceCount >= announces.length - 1)
-        		announceCount = -1;
-        	announceCount++;
-        }
-        strpos -= 2;
     }
 
     /**
@@ -147,68 +123,29 @@ public class GuiMainMenu extends GuiScreen
         }
 
         StringTranslate stringtranslate = StringTranslate.getInstance();
-        int i = height / 4 + 36;
+        int i = height / 4 + 48;
         controlList.add(new GuiButton(1, width / 2 - 100, i, stringtranslate.translateKey("menu.singleplayer")));
         controlList.add(multiplayerButton = new GuiButton(2, width / 2 - 100, i + 24, stringtranslate.translateKey("menu.multiplayer")));
-        controlList.add(new GuiButton(6, width / 2 - 100, i + 48, "Connexion à " + FontColors.GREEN + "Sweet" + FontColors.GOLD + "craft"));
-        controlList.add(new GuiButton(3, width / 2 - 100, i + 72, stringtranslate.translateKey("menu.mods")));
-        controlList.add(new GuiButton(0, width / 2 - 100, i + 96 + 12, 98, 20, stringtranslate.translateKey("menu.options")));
-        controlList.add(new GuiButton(4, width / 2 + 2, i + 96 + 12, 98, 20, stringtranslate.translateKey("menu.quit")));
-        controlList.add(new GuiButtonLanguage(5, width / 2 - 124, i + 96 + 12));
+        controlList.add(new GuiButton(3, width / 2 - 100, i + 48, stringtranslate.translateKey("menu.mods")));
+
+        if (mc.hideQuitButton)
+        {
+            controlList.add(new GuiButton(0, width / 2 - 100, i + 72, stringtranslate.translateKey("menu.options")));
+        }
+        else
+        {
+            controlList.add(new GuiButton(0, width / 2 - 100, i + 72 + 12, 98, 20, stringtranslate.translateKey("menu.options")));
+            controlList.add(new GuiButton(4, width / 2 + 2, i + 72 + 12, 98, 20, stringtranslate.translateKey("menu.quit")));
+        }
+
+        controlList.add(new GuiButtonLanguage(5, width / 2 - 124, i + 72 + 12));
 
         if (mc.session == null)
         {
             multiplayerButton.enabled = false;
         }
-        
-        updateSplashes();
     }
 
-    private void updateSplashes(){
-    	File splashes = new File(Minecraft.getMinecraftDir(), "splashes.txt");
-        String read;
-        String tempAnnonces = "";
-        try {
-			URL s = new URL("http://launcher.sweetcraft.fr/annonces.txt");
-			BufferedReader bf = new BufferedReader(new InputStreamReader(s.openStream()));
-			while((read = bf.readLine()) != null){
-				tempAnnonces += read + "\n";		
-			}
-				try{
-					BufferedWriter bw = new BufferedWriter(new FileWriter(splashes));
-					bw.append(tempAnnonces);
-				}catch(IOException e){
-					e.printStackTrace();
-				}
-
-        } catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-        doSplashes(tempAnnonces);
-    }
-    
-    private void doSplashes(String annonces){
-    	annonces = annonces.replaceAll("&0", FontColors.BLACK);
-    	annonces = annonces.replaceAll("&1", FontColors.DARK_BLUE);
-    	annonces = annonces.replaceAll("&2", FontColors.DARK_GREEN);
-    	annonces = annonces.replaceAll("&3", FontColors.DARK_AQUA);
-    	annonces = annonces.replaceAll("&4", FontColors.DARK_RED);
-    	annonces = annonces.replaceAll("&5", FontColors.DARK_PURPLE);
-    	annonces = annonces.replaceAll("&6", FontColors.GOLD);
-    	annonces = annonces.replaceAll("&7", FontColors.GRAY);
-    	annonces = annonces.replaceAll("&8", FontColors.DARK_GRAY);
-    	annonces = annonces.replaceAll("&9", FontColors.BLUE);
-    	annonces = annonces.replaceAll("&a", FontColors.GREEN);
-    	annonces = annonces.replaceAll("&b", FontColors.AQUA);
-    	annonces = annonces.replaceAll("&c", FontColors.RED);
-    	annonces = annonces.replaceAll("&d", FontColors.LIGHT_PURPLE);
-    	annonces = annonces.replaceAll("&e", FontColors.YELLOW);
-    	annonces = annonces.replaceAll("&f", FontColors.WHITE);
-    	announces = annonces.split("\n");
-    }
-    
     /**
      * Fired when a control is clicked. This is the equivalent of ActionListener.actionPerformed(ActionEvent e).
      */
@@ -238,13 +175,7 @@ public class GuiMainMenu extends GuiScreen
         {
             mc.displayGuiScreen(new GuiTexturePacks(this));
         }
-        // Sweetcraft
-        if(par1GuiButton.id == 6)
-        {
-        	mc.displayGuiScreen(new GuiConnecting(mc, "serveur.sweetcraft.fr", 25565));
-        }
-        // Fin
-        
+
         if (par1GuiButton.id == 4)
         {
             mc.shutdown();
@@ -422,7 +353,7 @@ public class GuiMainMenu extends GuiScreen
 
         if ((double)updateCounter < 0.0001D)
         {
-        	drawTexturedModalRect(i + 0, byte0 + 0, 0, 0, 99, 44);
+            drawTexturedModalRect(i + 0, byte0 + 0, 0, 0, 99, 44);
             drawTexturedModalRect(i + 99, byte0 + 0, 129, 0, 27, 44);
             drawTexturedModalRect(i + 99 + 26, byte0 + 0, 126, 0, 3, 44);
             drawTexturedModalRect(i + 99 + 26 + 3, byte0 + 0, 99, 0, 26, 44);
@@ -430,8 +361,8 @@ public class GuiMainMenu extends GuiScreen
         }
         else
         {
-            drawTexturedModalRect(i + 0, byte0 + 0, 0, 0, 180, 44);
-            drawTexturedModalRect(i + 155, byte0 + 0, 0, 45, 180, 44);
+            drawTexturedModalRect(i + 0, byte0 + 0, 0, 0, 155, 44);
+            drawTexturedModalRect(i + 155, byte0 + 0, 0, 45, 155, 44);
         }
 
         tessellator.setColorOpaque_I(0xffffff);
@@ -443,12 +374,8 @@ public class GuiMainMenu extends GuiScreen
         GL11.glScalef(f, f, f);
         drawCenteredString(fontRenderer, splashText, 0, -8, 0xffff00);
         GL11.glPopMatrix();
-        drawString(fontRenderer, FontColors.GREEN + "Sweet" + FontColors.GOLD + "craft" + FontColors.WHITE +" 1.3.0", 2, height - 10, 0xffffff);
-        String s1 = "Basé sur Minecraft.";
-        drawString(fontRenderer, s1, width - fontRenderer.getStringWidth(s1) - 2, height - 12 - fontRenderer.FONT_HEIGHT, 0xffffff);
-        String s = "Copyright Mojang AB.";
-			drawRect(0, 0, this.width, fontRenderer.FONT_HEIGHT + 4, Integer.MIN_VALUE);
-			drawString(fontRenderer, announces[announceCount], (int)this.strpos, 2, 0xffffff);
+        drawString(fontRenderer, "Minecraft 1.2.5", 2, height - 10, 0xffffff);
+        String s = "Copyright Mojang AB. Do not distribute!";
         drawString(fontRenderer, s, width - fontRenderer.getStringWidth(s) - 2, height - 10, 0xffffff);
         super.drawScreen(par1, par2, par3);
     }

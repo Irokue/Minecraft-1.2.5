@@ -48,8 +48,6 @@ public class Material
     /** Pistons' material. */
     public static final Material piston;
 
-	public static final Material X;
-
     /** Bool defining if the block can burn or not. */
     private boolean canBurn;
 
@@ -68,8 +66,8 @@ public class Material
     private boolean canHarvest;
 
     /**
-     * Mobility information flag. 0 indicates that this block is normal, 1 indicates that it can't push other blocks, 2
-     * indicates that it can't be pushed.
+     * Mobility information / flag of the material. 0 = normal, 1 = can't be push but enabled piston to move over it, 2
+     * = can't be pushed and stop pistons
      */
     private int mobilityFlag;
 
@@ -243,6 +241,5 @@ public class Material
         cake = (new Material(MapColor.airColor)).setNoPushMobility();
         web = (new MaterialWeb(MapColor.clothColor)).setNoHarvest().setNoPushMobility();
         piston = (new Material(MapColor.stoneColor)).setImmovableMobility();
-        X = new MaterialTransparent(MapColor.airColor);
     }
 }

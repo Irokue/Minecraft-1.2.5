@@ -12,39 +12,10 @@ public abstract class EntityPlayer extends EntityLiving
 
     /** the crafting inventory you are currently using */
     public Container craftingInventory;
-    
-    /** Variable joueur Chapeau */
-    public String playerHatUrl;
-    
-    /** Variable joueur oreille */
-    public String playerEarUrl;
-    
+
     /** The player's food stats. (See class FoodStats) */
     protected FoodStats foodStats;
 
-    /**
-     * Client de Sweetcraft
-     *  - Ajout de la guilde, rang
-     *  - Ajout du métier, expérience
-     *  - Ajout de l'argent
-     */
-    public float money = 0.0f;
-    public String job = "Aucun";
-    public String guilde = "Aucune guilde";
-    public String guildeRank = "Aucun rang";
-    public int jobExperience = 0;
-    public int jobLevel = 0;
-    public int jobMaxExperience = 0;
-    
-    /**
-     * Quests
-     */
-    public String questsTitles = "Aucune";
-    public String questsDesc = "Aucune";
-    public String questsObjectives = "Aucune";
-    public String questsRewards = "Aucune";
-    
-    
     /**
      * Used to tell if the player pressed jump twice. If this is at 0 and it's pressed (And they are allowed to fly, as
      * defined in the player's movementInput) it sets this to 7. If it's pressed and it's greater than 0 enable fly.
@@ -65,7 +36,7 @@ public abstract class EntityPlayer extends EntityLiving
     public String playerCloakUrl;
 
     /**
-     * Used by EntityPlayer to prevent too many xp orbs from getting absorbed at once.
+     * used by EntityPlayer to prevent too many xp orbs from getting absorbed at once.
      */
     public int xpCooldown;
     public double field_20066_r;
@@ -123,7 +94,7 @@ public abstract class EntityPlayer extends EntityLiving
     public float experience;
 
     /**
-     * This is the item that is in use when the player is holding down the useItemButton (e.g., bow, food, sword)
+     * this is the item that is in use when the player is holding down the useItemButton (e.g., bow, food, sword)
      */
     private ItemStack itemInUse;
 
@@ -460,37 +431,11 @@ public abstract class EntityPlayer extends EntityLiving
         craftingInventory = inventorySlots;
     }
 
-    /**
-     * Ajouts Capes
-     */
     public void updateCloak()
     {
-        playerCloakUrl = "http://launcher.sweetcraft.fr/capes/" + this.username.toLowerCase() + ".png";
-        updateCloak(playerCloakUrl);
+        playerCloakUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftCloaks/").append(username).append(".png").toString();
+        cloakUrl = playerCloakUrl;
     }
-    
-    /**
-     * Ajouts chapeau
-     */
-    public void updateHat()
-    {
-//        playerHatUrl = (new StringBuilder()).append("http://launcher.sweetcraft.fr/chapeau/").append(username).append(".png").toString();
-//        hatUrl = playerHatUrl;
-    }
-    
-    /**
-     * Ajouts Oreilles
-     */
-    public void updateEars()
-    {
-//    	plqayerEarUrl = (new StringBuilder()).append("http://launcher.sweetcraft.fr/oreilles/").append(username).append(".png").toString();
-//        earsUrl = playerEarUrl;
-    }
-    
-    public void updateCloak(String cloak){
-    	cloakUrl = cloak;
-    }
-    
 
     /**
      * Handles updating while being ridden by an entity
@@ -1051,7 +996,7 @@ public abstract class EntityPlayer extends EntityLiving
 
             if (entitywolf1.isTamed() && entitywolf1.getEntityToAttack() == null && username.equals(entitywolf1.getOwnerName()) && (!par2 || !entitywolf1.isSitting()))
             {
-                entitywolf1.setSitting(false);
+                entitywolf1.func_48140_f(false);
                 entitywolf1.setTarget(par1EntityLiving);
             }
         }
@@ -1088,10 +1033,6 @@ public abstract class EntityPlayer extends EntityLiving
         health -= par2;
     }
 
-    
-    public void displayGUISac(ItemStack par1ItemStack)
-    {
-    }
     /**
      * Displays the furnace GUI for the passed in furnace entity. Args: tileEntityFurnace
      */
@@ -1291,7 +1232,7 @@ public abstract class EntityPlayer extends EntityLiving
     }
 
     /**
-     * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
+     * is called when the player performs a critical hit on the Entity. Args: entity that was hit critically
      */
     public void onCriticalHit(Entity entity)
     {
@@ -1617,7 +1558,7 @@ public abstract class EntityPlayer extends EntityLiving
     }
 
     /**
-     * Causes this entity to do an upwards motion (jumping).
+     * jump, Causes this entity to do an upwards motion (jumping)
      */
     protected void jump()
     {

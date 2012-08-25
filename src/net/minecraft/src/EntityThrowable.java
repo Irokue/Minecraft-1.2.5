@@ -282,7 +282,7 @@ public abstract class EntityThrowable extends Entity
     }
 
     /**
-     * Called when this EntityThrowable hits a block or entity.
+     * Called when the throwable hits a block or entity.
      */
     protected abstract void onImpact(MovingObjectPosition movingobjectposition);
 

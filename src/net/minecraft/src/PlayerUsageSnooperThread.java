@@ -12,6 +12,6 @@ class PlayerUsageSnooperThread extends Thread
 
     public void run()
     {
-        PostHttp.sendPost(PlayerUsageSnooper.getServerURL(field_52012_a), PlayerUsageSnooper.getDataMap(field_52012_a), true);
+        PostHttp.func_52018_a(PlayerUsageSnooper.func_52023_a(field_52012_a), PlayerUsageSnooper.func_52020_b(field_52012_a), true);
     }
 }

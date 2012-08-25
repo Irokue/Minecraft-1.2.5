@@ -123,9 +123,9 @@ public class WorldClient extends World
         {
             ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)iterator.next();
             int i = chunkcoordintpair.chunkXPos * 16;
-            int j = chunkcoordintpair.chunkZPosition * 16;
+            int j = chunkcoordintpair.chunkZPos * 16;
             Profiler.startSection("getChunk");
-            Chunk chunk = getChunkFromChunkCoords(chunkcoordintpair.chunkXPos, chunkcoordintpair.chunkZPosition);
+            Chunk chunk = getChunkFromChunkCoords(chunkcoordintpair.chunkXPos, chunkcoordintpair.chunkZPos);
             func_48458_a(i, j, chunk);
         }
     }
@@ -179,8 +179,7 @@ public class WorldClient extends World
     }
 
     /**
-     * Dismounts the entity (and anything riding the entity), sets the dead flag, and removes the player entity from the
-     * player entity list. Called by the playerLoggedOut function.
+     * Not sure what this does 100%, but from the calling methods this method should be called like this.
      */
     public void setEntityDead(Entity par1Entity)
     {

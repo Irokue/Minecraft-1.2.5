@@ -23,7 +23,7 @@ public class ChatClickData
         field_50096_c = par2ChatLine;
         field_50093_d = par3;
         field_50094_e = par4;
-        field_50091_f = par1FontRenderer.trimStringToWidth(par2ChatLine.message, par3);
+        field_50091_f = par1FontRenderer.func_50107_a(par2ChatLine.message, par3);
         field_50092_g = func_50090_c();
     }
 
@@ -82,6 +82,6 @@ public class ChatClickData
         }
 
         FontRenderer _tmp = field_50095_b;
-        return FontRenderer.stripColorCodes(field_50096_c.message.substring(i, j));
+        return FontRenderer.func_52014_d(field_50096_c.message.substring(i, j));
     }
 }

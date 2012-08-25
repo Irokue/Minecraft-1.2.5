@@ -104,7 +104,7 @@ public class EntityAIAttackOnCollide extends EntityAIBase
     {
         attacker.getLookHelper().setLookPositionWithEntity(entityTarget, 30F, 30F);
 
-        if ((field_48264_f || attacker.getEntitySenses().canSee(entityTarget)) && --field_48269_i <= 0)
+        if ((field_48264_f || attacker.func_48090_aM().canSee(entityTarget)) && --field_48269_i <= 0)
         {
             field_48269_i = 4 + attacker.getRNG().nextInt(7);
             attacker.getNavigator().func_48667_a(entityTarget, field_48266_e);

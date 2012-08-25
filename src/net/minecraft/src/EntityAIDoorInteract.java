@@ -29,7 +29,7 @@ public abstract class EntityAIDoorInteract extends EntityAIBase
         PathNavigate pathnavigate = theEntity.getNavigator();
         PathEntity pathentity = pathnavigate.getPath();
 
-        if (pathentity == null || pathentity.isFinished() || !pathnavigate.getCanBreakDoors())
+        if (pathentity == null || pathentity.isFinished() || !pathnavigate.func_48665_b())
         {
             return false;
         }

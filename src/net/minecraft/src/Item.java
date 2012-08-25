@@ -163,30 +163,6 @@ public class Item
     public static Item recordWard = (new ItemRecord(2009, "ward")).setIconCoord(9, 15).setItemName("record");
     public static Item record11 = (new ItemRecord(2010, "11")).setIconCoord(10, 15).setItemName("record");
 
-    /**
-     * Items de Sweetcraft
-     */
-    public static Item maille;
-    public static Item raisin;
-    public static Item raisinSeed;
-    public static Item vin;
-    public static Item vinVide;
-    public static Item chopeVide;
-    public static Item chopeBiere;
-    public static Item seedOrge;
-    public static Item Orge;
-    public static Item liquideSuspect;
-    public static Item bolLait;
-	public static Item tube;
-	public static Item flechette;
-    public static Item sarbacane;
-    public static Item helmetGlow;
-    public static Item plateGlow;
-    public static Item legsGlow;
-    public static Item bootsGlow;
-	public static Item arrowRedstone;
-	public static Item sac;
-    
     /** Item index + 256 */
     public final int shiftedIndex;
 
@@ -705,28 +681,6 @@ public class Item
         brewingStand = (new ItemReed(123, Block.brewingStand)).setIconCoord(12, 10).setItemName("brewingStand");
         cauldron = (new ItemReed(124, Block.cauldron)).setIconCoord(12, 9).setItemName("cauldron");
         speckledMelon = (new Item(126)).setIconCoord(9, 8).setItemName("speckledMelon").setPotionEffect(PotionHelper.speckledMelonEffect);
-      
-        maille = (new ItemMaille(130)).setIconCoord(13, 11).setItemName("maille");
-        raisin = (new ItemRaisin(131, 6, false)).setAlwaysEdible().setIconCoord(11, 11).setItemName("raisin");
-        raisinSeed = (new ItemSeeds(132, Block.grappeCrops.blockID, Block.tilledField.blockID)).setIconCoord(10, 11).setItemName("raisinSeeds");
-        vin = (new ItemVin(133)).setAlwaysEdible().setPotionEffect(Potion.confusion.id, 20, 0, 100F).setIconCoord(12, 11).setItemName("vin");
-        vinVide = (new Item(134)).setIconCoord(12, 12).setItemName("vinVide");
-        chopeBiere = (new ItemBiere(135)).setAlwaysEdible().setPotionEffect(Potion.confusion.id, 20, 0, 1.0F).setIconCoord(5, 12).setItemName("chopeBière");
-        chopeVide = (new Item(136)).setIconCoord(5, 9).setItemName("chopeVide"); 
-        seedOrge = new ItemSeeds(137, Block.CropsOrge.blockID, Block.tilledField.blockID).setIconCoord(10, 10).setItemName("seedOrge");
-        Orge = new Item(138).setIconCoord(5, 10).setItemName("Orge");
-        liquideSuspect = (new ItemliquideSuspect(139)).setAlwaysEdible().setPotionEffect(Potion.confusion.id, 60, 0, 1.0F).setIconCoord(5, 11).setItemName("liquideSuspect");
-        bolLait = (new ItemSoup(140, 9)).setIconCoord(5, 13).setItemName("Bol de lait");
-		tube = (new Item(141)).setIconCoord(1,6).setItemName("tube");
-		flechette = (new Item(142)).setIconCoord(1,7).setItemName("flechette");
-		sarbacane = (new ItemSarbacane(143)).setIconCoord(1,8).setItemName("sarbacanne");
-        helmetGlow = (new ItemArmor(146, EnumArmorMaterial.GLOWSTONE, 0, 0)).setIconCoord(4, 0).setItemName("helmetGlow");
-        plateGlow = (new ItemArmor(147, EnumArmorMaterial.GLOWSTONE, 0, 1)).setIconCoord(4, 1).setItemName("chestplateGlow");
-        legsGlow = (new ItemArmor(148, EnumArmorMaterial.GLOWSTONE, 0, 2)).setIconCoord(4, 2).setItemName("leggingsGlow");
-        bootsGlow = (new ItemArmor(149, EnumArmorMaterial.GLOWSTONE, 0, 3)).setIconCoord(4, 3).setItemName("bootsGlow");
-        arrowRedstone = (new Item(150)).setIconCoord(1,8).setItemName("arrowredstone");
-        sac = (new ItemSac(151));
         StatList.initStats();
     }
-
 }

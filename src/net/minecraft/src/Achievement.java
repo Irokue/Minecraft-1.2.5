@@ -4,9 +4,6 @@ import java.util.List;
 
 public class Achievement extends StatBase
 {
-	
-	
-	
     /**
      * Is the column (related to center of achievement gui, in 24 pixels unit) that the achievement will be displayed.
      */

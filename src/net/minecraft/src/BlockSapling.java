@@ -43,7 +43,7 @@ public class BlockSapling extends BlockFlower
      */
     public int getBlockTextureFromSideAndMetadata(int par1, int par2)
     {
-        par2 &= 7;
+        par2 &= 3;
 
         if (par2 == 1)
         {
@@ -59,11 +59,6 @@ public class BlockSapling extends BlockFlower
         {
             return 30;
         }
-		
-		if (par2 == 4)
-		{
-			return 231;
-		}
         else
         {
             return super.getBlockTextureFromSideAndMetadata(par1, par2);
@@ -75,7 +70,7 @@ public class BlockSapling extends BlockFlower
      */
     public void growTree(World par1World, int par2, int par3, int par4, Random par5Random)
     {
-        int i = par1World.getBlockMetadata(par2, par3, par4) & 7;
+        int i = par1World.getBlockMetadata(par2, par3, par4) & 3;
         Object obj = null;
         int j = 0;
         int k = 0;
@@ -135,10 +130,6 @@ public class BlockSapling extends BlockFlower
                 obj = new WorldGenTrees(true, 4 + par5Random.nextInt(7), 3, 3, false);
             }
         }
-		else if ( i == 4)
-		{
-			obj = new WorldGenPommier(true);
-		}
         else
         {
             obj = new WorldGenTrees(true);
@@ -187,6 +178,6 @@ public class BlockSapling extends BlockFlower
      */
     protected int damageDropped(int par1)
     {
-        return par1 & 7;
+        return par1 & 3;
     }
 }

@@ -80,7 +80,7 @@ public class WorldGenTrees extends WorldGenerator
             return false;
         }
 
-        setBlock(par1World, par3, par4 - 1, par5, Block.dirt.blockID);
+        func_50073_a(par1World, par3, par4 - 1, par5, Block.dirt.blockID);
         byte byte1 = 3;
         int i1 = 0;
 

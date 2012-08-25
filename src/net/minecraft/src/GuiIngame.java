@@ -3,7 +3,6 @@ package net.minecraft.src;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
@@ -15,22 +14,18 @@ public class GuiIngame extends Gui
 
     /** A list with all the chat messages in. */
     private java.util.List chatMessageList;
-
-    /** A list with all the sent chat messages in it. */
-    private java.util.List sentMessageList;
+    private java.util.List field_50016_f;
     private Random rand;
     private Minecraft mc;
     private int updateCounter;
 
     /** The string specifying which record music is playing */
     private String recordPlaying;
-    
-    public int[] lastChecked;
 
     /** How many ticks the record playing message will be displayed */
     private int recordPlayingUpFor;
     private boolean recordIsPlaying;
-    private int historyOffset;
+    private int field_50017_n;
     private boolean field_50018_o;
 
     /** Damage partial time (GUI) */
@@ -42,17 +37,16 @@ public class GuiIngame extends Gui
     public GuiIngame(Minecraft par1Minecraft)
     {
         chatMessageList = new ArrayList();
-        sentMessageList = new ArrayList();
+        field_50016_f = new ArrayList();
         rand = new Random();
         updateCounter = 0;
         recordPlaying = "";
         recordPlayingUpFor = 0;
         recordIsPlaying = false;
-        historyOffset = 0;
+        field_50017_n = 0;
         field_50018_o = false;
         prevVignetteBrightness = 1.0F;
         mc = par1Minecraft;
-        lastChecked = new int[4];
     }
 
     /**
@@ -66,7 +60,7 @@ public class GuiIngame extends Gui
         FontRenderer fontrenderer = mc.fontRenderer;
         mc.entityRenderer.setupOverlayRendering();
         GL11.glEnable(GL11.GL_BLEND);
-        
+
         if (Minecraft.isFancyGraphicsEnabled())
         {
             renderVignette(mc.thePlayer.getBrightness(par1), i, j);
@@ -358,7 +352,7 @@ public class GuiIngame extends Gui
                 GL11.glTranslatef(0.0F, 32F, 0.0F);
             }
 
-            fontrenderer.drawStringWithShadow((new StringBuilder()).append("Sweetcraft 1.2.0 (").append(mc.debug).append(")").toString(), 2, 2, 0xffffff);
+            fontrenderer.drawStringWithShadow((new StringBuilder()).append("Minecraft 1.2.5 (").append(mc.debug).append(")").toString(), 2, 2, 0xffffff);
             fontrenderer.drawStringWithShadow(mc.debugInfoRenders(), 2, 12, 0xffffff);
             fontrenderer.drawStringWithShadow(mc.getEntityDebug(), 2, 22, 0xffffff);
             fontrenderer.drawStringWithShadow(mc.debugInfoEntities(), 2, 32, 0xffffff);
@@ -527,14 +521,14 @@ public class GuiIngame extends Gui
             flag = true;
         }
 
-        for (int k = 0; k + historyOffset < chatMessageList.size() && k < byte0; k++)
+        for (int k = 0; k + field_50017_n < chatMessageList.size() && k < byte0; k++)
         {
             if (((ChatLine)chatMessageList.get(k)).updateCounter >= 200 && !flag)
             {
                 continue;
             }
 
-            ChatLine chatline = (ChatLine)chatMessageList.get(k + historyOffset);
+            ChatLine chatline = (ChatLine)chatMessageList.get(k + field_50017_n);
             double d = (double)chatline.updateCounter / 200D;
             d = 1.0D - d;
             d *= 10D;
@@ -575,7 +569,7 @@ public class GuiIngame extends Gui
             GL11.glTranslatef(0.0F, par1FontRenderer.FONT_HEIGHT, 0.0F);
             int l = j * par1FontRenderer.FONT_HEIGHT + j;
             int i1 = i * par1FontRenderer.FONT_HEIGHT + i;
-            int j1 = (historyOffset * i1) / j;
+            int j1 = (field_50017_n * i1) / j;
             int k1 = (i1 * i1) / l;
 
             if (l != i1)
@@ -605,7 +599,7 @@ public class GuiIngame extends Gui
         int i = scaledresolution.getScaledWidth();
         char c = '\266';
         int j = i / 2 - c / 2;
-        int k = (int)(((float)entitydragon.getDragonHealth() / (float)entitydragon.getMaxHealth()) * (float)(c + 1));
+        int k = (int)(((float)entitydragon.func_41010_ax() / (float)entitydragon.getMaxHealth()) * (float)(c + 1));
         byte byte0 = 12;
         drawTexturedModalRect(j, byte0, 0, 74, c, 5);
         drawTexturedModalRect(j, byte0, 0, 74, c, 5);
@@ -770,7 +764,7 @@ public class GuiIngame extends Gui
     public void clearChatMessages()
     {
         chatMessageList.clear();
-        sentMessageList.clear();
+        field_50016_f.clear();
     }
 
     /**
@@ -782,19 +776,19 @@ public class GuiIngame extends Gui
         boolean flag1 = true;
         String s;
 
-        for (Iterator iterator = mc.fontRenderer.listFormattedStringToWidth(par1Str, 320).iterator(); iterator.hasNext(); chatMessageList.add(0, new ChatLine(s)))
+        for (Iterator iterator = mc.fontRenderer.func_50108_c(par1Str, 320).iterator(); iterator.hasNext(); chatMessageList.add(0, new ChatLine(s)))
         {
             s = (String)iterator.next();
 
-            if (flag && historyOffset > 0)
+            if (flag && field_50017_n > 0)
             {
                 field_50018_o = true;
-                adjustHistoryOffset(1);
+                func_50011_a(1);
             }
 
             if (!flag1)
             {
-                s = (new StringBuilder()).append("> ").append(s).toString();
+                s = (new StringBuilder()).append(" ").append(s).toString();
             }
 
             flag1 = false;
@@ -803,36 +797,30 @@ public class GuiIngame extends Gui
         for (; chatMessageList.size() > 100; chatMessageList.remove(chatMessageList.size() - 1)) { }
     }
 
-    /**
-     * Returns the list with the sent chat messages in it.
-     */
-    public java.util.List getSentMessageList()
+    public java.util.List func_50013_c()
     {
-        return sentMessageList;
+        return field_50016_f;
     }
 
     public void func_50014_d()
     {
-        historyOffset = 0;
+        field_50017_n = 0;
         field_50018_o = false;
     }
 
-    /**
-     * increment/decrement history scroll offset
-     */
-    public void adjustHistoryOffset(int par1)
+    public void func_50011_a(int par1)
     {
-        historyOffset += par1;
+        field_50017_n += par1;
         int i = chatMessageList.size();
 
-        if (historyOffset > i - 20)
+        if (field_50017_n > i - 20)
         {
-            historyOffset = i - 20;
+            field_50017_n = i - 20;
         }
 
-        if (historyOffset <= 0)
+        if (field_50017_n <= 0)
         {
-            historyOffset = 0;
+            field_50017_n = 0;
             field_50018_o = false;
         }
     }
@@ -857,8 +845,8 @@ public class GuiIngame extends Gui
 
         if (par1 <= 320 && par2 < mc.fontRenderer.FONT_HEIGHT * i + i)
         {
-            int j = par2 / (mc.fontRenderer.FONT_HEIGHT + 1) + historyOffset;
-            return new ChatClickData(mc.fontRenderer, (ChatLine)chatMessageList.get(j), par1, (par2 - (j - historyOffset) * mc.fontRenderer.FONT_HEIGHT) + j);
+            int j = par2 / (mc.fontRenderer.FONT_HEIGHT + 1) + field_50017_n;
+            return new ChatClickData(mc.fontRenderer, (ChatLine)chatMessageList.get(j), par1, (par2 - (j - field_50017_n) * mc.fontRenderer.FONT_HEIGHT) + j);
         }
         else
         {

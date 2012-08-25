@@ -79,10 +79,7 @@ public class GuiScreen extends Gui
         return "";
     }
 
-    /**
-     * store a string in the system clipboard
-     */
-    public static void setClipboardString(String par0Str)
+    public static void func_50050_a(String par0Str)
     {
         try
         {

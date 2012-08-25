@@ -129,15 +129,6 @@ public class BiomeDecorator
 
     /** True if decorator should generate surface lava & water */
     public boolean generateLakes;
-    
-    /** add*/
-    protected WorldGenerator plantAddGen;
-    
-    protected WorldGenerator plantAdddGen;
-    
-    protected WorldGenerator plantAddddGen;
-    
-    protected WorldGenerator plantAdddddGen;
 
     public BiomeDecorator(BiomeGenBase par1BiomeGenBase)
     {
@@ -174,12 +165,6 @@ public class BiomeDecorator
         bigMushroomsPerChunk = 0;
         generateLakes = true;
         biome = par1BiomeGenBase;
-        
-        /**  ADD*/
-        plantAddGen = new WorldGenFlowers(Block.plantAdd.blockID);
-        plantAdddGen = new WorldGenFlowers(Block.plantAddd.blockID);
-        plantAddddGen = new WorldGenFlowers(Block.plantAdddd.blockID);
-        plantAdddddGen = new WorldGenFlowers(Block.plantAddddd.blockID);
     }
 
     /**
@@ -268,34 +253,6 @@ public class BiomeDecorator
                 int j11 = randomGenerator.nextInt(128);
                 int i15 = chunk_Z + randomGenerator.nextInt(16) + 8;
                 plantRedGen.generate(currentWorld, randomGenerator, i7, j11, i15);
-            }
-            if (randomGenerator.nextInt(4) == 0)
-            {
-                int i7 = chunk_X + randomGenerator.nextInt(16) + 8;
-                int j11 = randomGenerator.nextInt(128);
-                int i15 = chunk_Z + randomGenerator.nextInt(16) + 8;
-                plantAddGen.generate(currentWorld, randomGenerator, i7, j11, i15);
-            }
-            if (randomGenerator.nextInt(4) == 0)
-            {
-                int i7 = chunk_X + randomGenerator.nextInt(16) + 8;
-                int j11 = randomGenerator.nextInt(128);
-                int i15 = chunk_Z + randomGenerator.nextInt(16) + 8;
-                plantAdddGen.generate(currentWorld, randomGenerator, i7, j11, i15);
-            }
-            if (randomGenerator.nextInt(4) == 0)
-            {
-                int i7 = chunk_X + randomGenerator.nextInt(16) + 8;
-                int j11 = randomGenerator.nextInt(128);
-                int i15 = chunk_Z + randomGenerator.nextInt(16) + 8;
-                plantAddddGen.generate(currentWorld, randomGenerator, i7, j11, i15);
-            }
-            if (randomGenerator.nextInt(4) == 0)
-            {
-                int i7 = chunk_X + randomGenerator.nextInt(16) + 8;
-                int j11 = randomGenerator.nextInt(128);
-                int i15 = chunk_Z + randomGenerator.nextInt(16) + 8;
-                plantAdddddGen.generate(currentWorld, randomGenerator, i7, j11, i15);
             }
         }
 

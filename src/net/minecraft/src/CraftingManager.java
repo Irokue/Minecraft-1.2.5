@@ -109,10 +109,6 @@ public class CraftingManager
                 {
                     "###", '#', Block.stoneBrick
                 });
-        addRecipe(new ItemStack(Block.stairSingle, 6, 6), new Object[]
-                {
-                    "###", '#', Block.netherBrick
-                });
         addRecipe(new ItemStack(Block.ladder, 3), new Object[]
                 {
                     "# #", "###", "# #", '#', Item.stick
@@ -254,10 +250,6 @@ public class CraftingManager
                 {
                     "#  ", "## ", "###", '#', Block.netherBrick
                 });
-        addRecipe(new ItemStack(Block.stairsFoin, 4), new Object[]
-                {
-                    "#  ", "## ", "###", '#', Block.foin
-                });
         addRecipe(new ItemStack(Item.painting, 1), new Object[]
                 {
                     "###", "#X#", "###", '#', Item.stick, 'X', Block.cloth
@@ -323,9 +315,6 @@ public class CraftingManager
                 {
                     " B ", "D#D", "###", '#', Block.obsidian, 'B', Item.book, 'D', Item.diamond
                 });
-        
-        
-        
         addShapelessRecipe(new ItemStack(Item.eyeOfEnder, 1), new Object[]
                 {
                     Item.enderPearl, Item.blazePowder
@@ -338,106 +327,6 @@ public class CraftingManager
                 {
                     Item.gunpowder, Item.blazePowder, new ItemStack(Item.coal, 1, 1)
                 });
-        
-        
-
-                                 // SWEETCRAFT
-        
-        addRecipe(new ItemStack(Item.chopeVide, 1), new Object[]
-                {
-                    "# #", "# #", "###", Character.valueOf('#'), Block.planks
-                });
-        
-        addRecipe(new ItemStack(Block.table, 1), new Object[]
-                {
-                    "###", "S S", "S S", '#', Block.planks, 'S', Item.stick
-                });
-        addRecipe(new ItemStack(Block.chaise, 1), new Object[]
-                {
-                    "  S", "###", "S S", '#', Block.planks, 'S', Item.stick
-                });
-        addRecipe(new ItemStack(Item.vinVide, 1), new Object[]
-                {
-                    "S S", "S S", "SSS", 'S', Block.glass
-                });
-        addRecipe(new ItemStack(Block.stairSingle, 6, 7), new Object[]
-                {
-                    "SSS", 'S', Block.foin
-                });
-        addShapelessRecipe(new ItemStack(Item.vin, 1), new Object[]
-                {
-                    Item.raisin, Item.vinVide
-                });
-        addShapelessRecipe(new ItemStack(Item.maille, 2), new Object[]
-                {
-                    Item.ingotIron
-                });
-        addShapelessRecipe(new ItemStack(Item.chopeBiere, 1), new Object[]
-                {
-                    Item.Orge, Item.chopeVide
-                });
-        addShapelessRecipe(new ItemStack(Item.liquideSuspect, 1), new Object[]
-                {
-                    Item.glassBottle, Item.chopeBiere, Item.vin
-                });
-        addShapelessRecipe(new ItemStack(Item.bolLait, 1), new Object[]
-                {
-                    Item.bowlEmpty, Item.bucketMilk
-                });
-
- /*       addRecipe(new ItemStack(Block.highWood, 1), new Object[]
-                {
-                "###", "###", "###", '#', new ItemStack(Block.planks)
-                });
-        addRecipe(new ItemStack(Block.highStone, 1), new Object[]
-                {
-                "###", "###", "###", '#', new ItemStack(Block.cobblestone)
-                });
-        addRecipe(new ItemStack(Block.barriereBrique, 2), new Object[]
-                {
-                    "###", "###", '#', Block.brick
-                });
-        
-        addRecipe(new ItemStack(Block.blocCanne, 1), new Object[]
-                {
-                    "###","###", "###", '#', Item.tube
-                });
-        addRecipe(new ItemStack(Item.tube, 1), new Object[]
-                {
-                    "##", "##", '#', Item.reed
-                });
-        addRecipe(new ItemStack(Item.sarbacane, 1), new Object[]
-                {
-                    "#","#", "#", '#', Item.tube
-                });
-        addRecipe(new ItemStack(Item.flechette, 1), new Object[]
-                {
-                    "#", "A", '#', Item.reed,'A',Item.feather
-                });
-        addRecipe(new ItemStack(Block.cible, 1), new Object[]
-                {
-                    "#Z#", "ZAZ", "#Z#",'#', Block.planks,'Z',Block.tapis,'A',Item.redstone
-                });
-        addShapelessRecipe(new ItemStack(Item.arrowRedstone, 1), new Object[]
-                {
-        			Item.arrow, Item.redstone
-                });
-
-
-        
-  for (int i=0; i<16;i++)
-  {
-      addRecipe(new ItemStack(Block.tapis, 6,i), new Object[]
-              {
-             "##", '#', new ItemStack(Block.cloth, 1, i)
-              });
-   addRecipe(new ItemStack(Block.demiDalleLaine, 6, i), new Object[]
-                {
-                    "###", '#', new ItemStack(Block.cloth, 1, i)
-                });
-  }
-
-        */
         Collections.sort(recipes, new RecipeSorter(this));
         System.out.println((new StringBuilder()).append(recipes.size()).append(" recipes").toString());
     }

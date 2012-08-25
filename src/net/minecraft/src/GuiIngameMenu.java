@@ -34,7 +34,6 @@ public class GuiIngameMenu extends GuiScreen
 
         controlList.add(new GuiButton(4, width / 2 - 100, height / 4 + 24 + byte0, StatCollector.translateToLocal("menu.returnToGame")));
         controlList.add(new GuiButton(0, width / 2 - 100, height / 4 + 96 + byte0, StatCollector.translateToLocal("menu.options")));
-        controlList.add(new GuiButton(7, width / 2 - 100, height / 4 + 72 + byte0, "Packs de Texture"));
         controlList.add(new GuiButton(5, width / 2 - 100, height / 4 + 48 + byte0, 98, 20, StatCollector.translateToLocal("gui.achievements")));
         controlList.add(new GuiButton(6, width / 2 + 2, height / 4 + 48 + byte0, 98, 20, StatCollector.translateToLocal("gui.stats")));
     }
@@ -79,10 +78,7 @@ public class GuiIngameMenu extends GuiScreen
             case 6:
                 mc.displayGuiScreen(new GuiStats(this, mc.statFileWriter));
                 break;
-            case 7:
-            	mc.displayGuiScreen(new GuiTexturePacks(this));
-            	break;
-            }
+        }
     }
 
     /**

@@ -1,7 +1,5 @@
 package net.minecraft.src;
 
-import net.minecraft.src.Material;
-
 public class MaterialLiquid extends Material
 {
     public MaterialLiquid(MapColor par1MapColor)

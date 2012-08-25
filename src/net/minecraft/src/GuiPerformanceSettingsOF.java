@@ -215,7 +215,7 @@ public class GuiPerformanceSettingsOF extends GuiScreen
         for (int k = 0; k < controlList.size(); k++)
         {
             GuiButton guibutton = (GuiButton)controlList.get(k);
-            boolean flag = i >= guibutton.xPosition && j >= guibutton.yPosition && i < guibutton.xPosition + guibutton.width && j < guibutton.yPosition + guibutton.height;
+            boolean flag = i >= guibutton.xPosition && j >= guibutton.yPosition && i < guibutton.xPosition + guibutton.field_52008_a && j < guibutton.yPosition + guibutton.field_52007_b;
 
             if (flag)
             {

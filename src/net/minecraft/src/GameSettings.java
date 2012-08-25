@@ -3,7 +3,6 @@ package net.minecraft.src;
 import java.io.*;
 import java.util.Arrays;
 import java.util.List;
-
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
@@ -37,9 +36,6 @@ public class GameSettings
     public int renderDistance;
     public boolean viewBobbing;
     public boolean anaglyph;
-    public boolean global, commerce, local;
-    public boolean talkGlobal, talkCommerce, talkLocal;
-    public boolean hdSkins;
 
     /** Advanced OpenGL */
     public boolean advancedOpengl;
@@ -115,7 +111,9 @@ public class GameSettings
     public static final int ANIM_ON = 0;
     public static final int ANIM_GENERATED = 1;
     public static final int ANIM_OFF = 2;
-    public static final String DEFAULT_STR = "Default";    
+    public static final String DEFAULT_STR = "Default";
+    public KeyBinding ofKeyBindZoom;
+
     /** The name of the selected texture pack. */
     public String skin;
     public KeyBinding keyBindForward;
@@ -131,8 +129,6 @@ public class GameSettings
     public KeyBinding keyBindUseItem;
     public KeyBinding keyBindPlayerList;
     public KeyBinding keyBindPickBlock;
-    public KeyBinding keyBindSweetcraft;
-    public KeyBinding keyBindQuests;
     public KeyBinding keyBindings[];
     protected Minecraft mc;
     private File optionsFile;
@@ -174,7 +170,7 @@ public class GameSettings
 
     public GameSettings(Minecraft par1Minecraft, File par2File)
     {
-    	ofRenderDistanceFine = 0;
+        ofRenderDistanceFine = 0;
         ofFogType = 1;
         ofFogStart = 0.8F;
         ofMipmapLevel = 0;
@@ -243,13 +239,6 @@ public class GameSettings
         fancyGraphics = true;
         ambientOcclusion = true;
         clouds = true;
-        global = true;
-        commerce = true;
-        talkGlobal = true;
-        talkCommerce = false;
-        talkLocal = false;
-        local = true;
-        hdSkins = true;
         skin = "Default";
         keyBindForward = new KeyBinding("key.forward", 17);
         keyBindLeft = new KeyBinding("key.left", 30);
@@ -264,12 +253,11 @@ public class GameSettings
         keyBindUseItem = new KeyBinding("key.use", -99);
         keyBindPlayerList = new KeyBinding("key.playerlist", 15);
         keyBindPickBlock = new KeyBinding("key.pickItem", -98);
-        keyBindSweetcraft = new KeyBinding("Caractéristiques", 46);
-        keyBindQuests = new KeyBinding("Quêtes", Keyboard.KEY_L);
+        ofKeyBindZoom = new KeyBinding("Zoom", 29);
         keyBindings = (new KeyBinding[]
                 {
                     keyBindAttack, keyBindUseItem, keyBindForward, keyBindLeft, keyBindBack, keyBindRight, keyBindJump, keyBindSneak, keyBindDrop, keyBindInventory,
-                    keyBindChat, keyBindPlayerList, keyBindPickBlock, keyBindSweetcraft, keyBindQuests
+                    keyBindChat, keyBindPlayerList, keyBindPickBlock, ofKeyBindZoom
                 });
         difficulty = 2;
         hideGUI = false;
@@ -289,15 +277,14 @@ public class GameSettings
         language = "en_US";
         mc = par1Minecraft;
         optionsFile = new File(par2File, "options.txt");
-        this.optionsFileOF = new File(par2File, "optionsof.txt");
+        optionsFileOF = new File(par2File, "optionsof.txt");
         loadOptions();
-
         Config.setGameSettings(this);
     }
 
     public GameSettings()
     {
-    	ofRenderDistanceFine = 0;
+        ofRenderDistanceFine = 0;
         ofFogType = 1;
         ofFogStart = 0.8F;
         ofMipmapLevel = 0;
@@ -366,13 +353,6 @@ public class GameSettings
         fancyGraphics = true;
         ambientOcclusion = true;
         clouds = true;
-        global = true;
-        commerce = true;
-        local = true;
-        talkGlobal = true;
-        talkCommerce = false;
-        talkLocal = false;
-        hdSkins = true;
         skin = "Default";
         keyBindForward = new KeyBinding("key.forward", 17);
         keyBindLeft = new KeyBinding("key.left", 30);
@@ -387,12 +367,10 @@ public class GameSettings
         keyBindUseItem = new KeyBinding("key.use", -99);
         keyBindPlayerList = new KeyBinding("key.playerlist", 15);
         keyBindPickBlock = new KeyBinding("key.pickItem", -98);
-        keyBindSweetcraft = new KeyBinding("Caractéristiques", 46);
-        keyBindQuests = new KeyBinding("Quêtes", Keyboard.KEY_L);
         keyBindings = (new KeyBinding[]
                 {
                     keyBindAttack, keyBindUseItem, keyBindForward, keyBindLeft, keyBindBack, keyBindRight, keyBindJump, keyBindSneak, keyBindDrop, keyBindInventory,
-                    keyBindChat, keyBindPlayerList, keyBindPickBlock, keyBindSweetcraft, keyBindQuests
+                    keyBindChat, keyBindPlayerList, keyBindPickBlock
                 });
         difficulty = 2;
         hideGUI = false;
@@ -486,6 +464,7 @@ public class GameSettings
         {
             gammaSetting = par2;
         }
+
         if (par1EnumOptions == EnumOptions.CLOUD_HEIGHT)
         {
             ofCloudsHeight = par2;
@@ -596,7 +575,7 @@ public class GameSettings
 
         mc.renderGlobal.loadRenderers();
     }
-    
+
     /**
      * For non-float options. Toggles the option on/off, or cycles through the list i.e. render distances.
      */
@@ -610,6 +589,7 @@ public class GameSettings
         if (par1EnumOptions == EnumOptions.RENDER_DISTANCE)
         {
             renderDistance = renderDistance + par2 & 3;
+            ofRenderDistanceFine = 32 << 3 - renderDistance;
         }
 
         if (par1EnumOptions == EnumOptions.GUI_SCALE)
@@ -634,30 +614,27 @@ public class GameSettings
 
         if (par1EnumOptions == EnumOptions.ADVANCED_OPENGL)
         {
-        	if (par1EnumOptions == EnumOptions.ADVANCED_OPENGL)
+            if (!Config.isOcclusionAvailable())
             {
-                if (!Config.isOcclusionAvailable())
-                {
-                    ofOcclusionFancy = false;
-                    advancedOpengl = false;
-                }
-                else if (!advancedOpengl)
-                {
-                    advancedOpengl = true;
-                    ofOcclusionFancy = false;
-                }
-                else if (!ofOcclusionFancy)
-                {
-                    ofOcclusionFancy = true;
-                }
-                else
-                {
-                    ofOcclusionFancy = false;
-                    advancedOpengl = false;
-                }
-
-                mc.renderGlobal.setAllRenderesVisible();
+                ofOcclusionFancy = false;
+                advancedOpengl = false;
             }
+            else if (!advancedOpengl)
+            {
+                advancedOpengl = true;
+                ofOcclusionFancy = false;
+            }
+            else if (!ofOcclusionFancy)
+            {
+                ofOcclusionFancy = true;
+            }
+            else
+            {
+                ofOcclusionFancy = false;
+                advancedOpengl = false;
+            }
+
+            mc.renderGlobal.setAllRenderesVisible();
         }
 
         if (par1EnumOptions == EnumOptions.ANAGLYPH)
@@ -668,8 +645,8 @@ public class GameSettings
 
         if (par1EnumOptions == EnumOptions.FRAMERATE_LIMIT)
         {
-        	 limitFramerate = (limitFramerate + par2) % 4;
-             Display.setVSyncEnabled(limitFramerate == 3);
+            limitFramerate = (limitFramerate + par2) % 4;
+            Display.setVSyncEnabled(limitFramerate == 3);
         }
 
         if (par1EnumOptions == EnumOptions.DIFFICULTY)
@@ -687,43 +664,6 @@ public class GameSettings
         {
             ambientOcclusion = !ambientOcclusion;
             mc.renderGlobal.loadRenderers();
-        }
-        
-        if (par1EnumOptions == EnumOptions.SEE_GLOBAL)
-        {
-        	global = !global;
-        }
-        
-        if (par1EnumOptions == EnumOptions.SEE_COMMERCE)
-        {
-        	commerce = !commerce;
-        }
-        
-        if (par1EnumOptions == EnumOptions.SEE_LOCAL)
-        {
-        	local = !local;
-        }
-        
-        if(par1EnumOptions == EnumOptions.TALK_GLOBAL){
-        	talkGlobal = true;
-        	talkCommerce = false;
-        	talkLocal = false;
-        }
-
-        if(par1EnumOptions == EnumOptions.TALK_COMMERCE){
-        	talkGlobal = false;
-        	talkCommerce = true;
-        	talkLocal = false;
-        }
-
-        if(par1EnumOptions == EnumOptions.TALK_LOCAL){
-        	talkGlobal = false;
-        	talkCommerce = false;
-        	talkLocal = true;
-        }
-        if(par1EnumOptions == EnumOptions.HD_SKINS)
-        {
-        	hdSkins = !hdSkins;
         }
 
         if (par1EnumOptions == EnumOptions.FOG_FANCY)
@@ -1132,6 +1072,7 @@ public class GameSettings
                 }
             }
         }
+
         saveOptions();
     }
 
@@ -1161,6 +1102,7 @@ public class GameSettings
         {
             return mouseSensitivity;
         }
+
         if (par1EnumOptions == EnumOptions.CLOUD_HEIGHT)
         {
             return ofCloudsHeight;
@@ -1202,27 +1144,6 @@ public class GameSettings
 
             case 6:
                 return clouds;
-                
-            case 7:
-            	return global;
-            	
-            case 8:
-            	return commerce;
-            	
-            case 9:
-            	return local;
-            	
-            case 10:
-            	return talkGlobal;
-            	
-            case 11:
-            	return talkCommerce;
-            
-            case 12:
-            	return talkLocal;
-            
-            case 13:
-            	return hdSkins;
         }
 
         return false;
@@ -1245,15 +1166,15 @@ public class GameSettings
     public String getKeyBinding(EnumOptions par1EnumOptions)
     {
         StringTranslate stringtranslate = StringTranslate.getInstance();
-        String s = (new StringBuilder()).append(stringtranslate.translateKey(par1EnumOptions.getEnumString())).append(": ").toString();
+        String s = stringtranslate.translateKey(par1EnumOptions.getEnumString());
 
         if (s == null)
         {
             s = par1EnumOptions.getEnumString();
         }
-        
+
         String s1 = (new StringBuilder()).append(s).append(": ").toString();
-        
+
         if (par1EnumOptions.getEnumFloat())
         {
             float f = getOptionFloatValue(par1EnumOptions);
@@ -1262,16 +1183,16 @@ public class GameSettings
             {
                 if (f == 0.0F)
                 {
-                    return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.sensitivity.min")).toString();
+                    return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.sensitivity.min")).toString();
                 }
 
                 if (f == 1.0F)
                 {
-                    return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.sensitivity.max")).toString();
+                    return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.sensitivity.max")).toString();
                 }
                 else
                 {
-                    return (new StringBuilder()).append(s).append((int)(f * 200F)).append("%").toString();
+                    return (new StringBuilder()).append(s1).append((int)(f * 200F)).append("%").toString();
                 }
             }
 
@@ -1279,16 +1200,16 @@ public class GameSettings
             {
                 if (f == 0.0F)
                 {
-                    return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.fov.min")).toString();
+                    return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.fov.min")).toString();
                 }
 
                 if (f == 1.0F)
                 {
-                    return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.fov.max")).toString();
+                    return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.fov.max")).toString();
                 }
                 else
                 {
-                    return (new StringBuilder()).append(s).append((int)(70F + f * 40F)).toString();
+                    return (new StringBuilder()).append(s1).append((int)(70F + f * 40F)).toString();
                 }
             }
 
@@ -1296,18 +1217,19 @@ public class GameSettings
             {
                 if (f == 0.0F)
                 {
-                    return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.gamma.min")).toString();
+                    return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.gamma.min")).toString();
                 }
 
                 if (f == 1.0F)
                 {
-                    return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.gamma.max")).toString();
+                    return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.gamma.max")).toString();
                 }
                 else
                 {
-                    return (new StringBuilder()).append(s).append("+").append((int)(f * 100F)).append("%").toString();
+                    return (new StringBuilder()).append(s1).append("+").append((int)(f * 100F)).append("%").toString();
                 }
             }
+
             if (par1EnumOptions == EnumOptions.RENDER_DISTANCE_FINE)
             {
                 String s2 = "Tiny";
@@ -1348,17 +1270,17 @@ public class GameSettings
                     return (new StringBuilder()).append(s1).append(s2).append(" +").append(i).toString();
                 }
             }
-            
+
             if (f == 0.0F)
             {
-                return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.off")).toString();
+                return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.off")).toString();
             }
             else
             {
-                return (new StringBuilder()).append(s).append((int)(f * 100F)).append("%").toString();
+                return (new StringBuilder()).append(s1).append((int)(f * 100F)).append("%").toString();
             }
         }
-        
+
         if (par1EnumOptions == EnumOptions.ADVANCED_OPENGL)
         {
             if (!advancedOpengl)
@@ -1382,38 +1304,46 @@ public class GameSettings
 
             if (flag)
             {
-                return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.on")).toString();
+                return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.on")).toString();
             }
             else
             {
-                return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.off")).toString();
+                return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.off")).toString();
             }
         }
 
         if (par1EnumOptions == EnumOptions.RENDER_DISTANCE)
         {
-            return (new StringBuilder()).append(s).append(func_48571_a(RENDER_DISTANCES, renderDistance)).toString();
+            return (new StringBuilder()).append(s1).append(func_48571_a(RENDER_DISTANCES, renderDistance)).toString();
         }
 
         if (par1EnumOptions == EnumOptions.DIFFICULTY)
         {
-            return (new StringBuilder()).append(s).append(func_48571_a(DIFFICULTIES, difficulty)).toString();
+            return (new StringBuilder()).append(s1).append(func_48571_a(DIFFICULTIES, difficulty)).toString();
         }
 
         if (par1EnumOptions == EnumOptions.GUI_SCALE)
         {
-            return (new StringBuilder()).append(s).append(func_48571_a(GUISCALES, guiScale)).toString();
+            return (new StringBuilder()).append(s1).append(func_48571_a(GUISCALES, guiScale)).toString();
         }
 
         if (par1EnumOptions == EnumOptions.PARTICLES)
         {
-            return (new StringBuilder()).append(s).append(func_48571_a(PARTICLES, particleSetting)).toString();
+            return (new StringBuilder()).append(s1).append(func_48571_a(PARTICLES, particleSetting)).toString();
         }
 
         if (par1EnumOptions == EnumOptions.FRAMERATE_LIMIT)
         {
-            return (new StringBuilder()).append(s).append(func_48571_a(LIMIT_FRAMERATES, limitFramerate)).toString();
+            if (limitFramerate == 3)
+            {
+                return (new StringBuilder()).append(s1).append("VSync").toString();
+            }
+            else
+            {
+                return (new StringBuilder()).append(s1).append(func_48571_a(LIMIT_FRAMERATES, limitFramerate)).toString();
+            }
         }
+
         if (par1EnumOptions == EnumOptions.FOG_FANCY)
         {
             switch (ofFogType)
@@ -2056,20 +1986,21 @@ public class GameSettings
         {
             return (new StringBuilder()).append(s1).append(ofFullscreenMode).toString();
         }
+
         if (par1EnumOptions == EnumOptions.GRAPHICS)
         {
             if (fancyGraphics)
             {
-                return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.graphics.fancy")).toString();
+                return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.graphics.fancy")).toString();
             }
             else
             {
-                return (new StringBuilder()).append(s).append(stringtranslate.translateKey("options.graphics.fast")).toString();
+                return (new StringBuilder()).append(s1).append(stringtranslate.translateKey("options.graphics.fast")).toString();
             }
         }
         else
         {
-            return s;
+            return s1;
         }
     }
 
@@ -2089,7 +2020,7 @@ public class GameSettings
 
             for (String s = ""; (s = bufferedreader.readLine()) != null;)
             {
-            	try
+                try
                 {
                     String as[] = s.split(":");
 
@@ -2661,13 +2592,6 @@ public class GameSettings
             printwriter.println((new StringBuilder()).append("skin:").append(skin).toString());
             printwriter.println((new StringBuilder()).append("lastServer:").append(lastServer).toString());
             printwriter.println((new StringBuilder()).append("lang:").append(language).toString());
-            printwriter.println((new StringBuilder()).append("see_global:").append(global).toString());
-            printwriter.println((new StringBuilder()).append("see_commerce:").append(commerce).toString());
-            printwriter.println((new StringBuilder()).append("see_local:").append(local).toString());
-            printwriter.println((new StringBuilder()).append("talk_global:").append(talkGlobal).toString());
-            printwriter.println((new StringBuilder()).append("talk_commerce:").append(talkCommerce).toString());
-            printwriter.println((new StringBuilder()).append("talk_local:").append(talkLocal).toString());
-            printwriter.println((new StringBuilder()).append("hd_skins:").append(hdSkins).toString());
 
             for (int i = 0; i < keyBindings.length; i++)
             {
@@ -2681,7 +2605,7 @@ public class GameSettings
             System.out.println("Failed to save options");
             exception.printStackTrace();
         }
-        
+
         try
         {
             PrintWriter printwriter1 = new PrintWriter(new FileWriter(optionsFileOF));
@@ -2756,6 +2680,6 @@ public class GameSettings
      */
     public boolean shouldRenderClouds()
     {
-    	 return ofRenderDistanceFine > 64 && clouds;
+        return ofRenderDistanceFine > 64 && clouds;
     }
 }

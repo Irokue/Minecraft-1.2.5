@@ -15,7 +15,7 @@ public class EntityOcelot extends EntityTameable
         super(par1World);
         texture = "/mob/ozelot.png";
         setSize(0.6F, 0.8F);
-        getNavigator().setAvoidsWater(true);
+        getNavigator().func_48664_a(true);
         tasks.addTask(1, new EntityAISwimming(this));
         tasks.addTask(2, aiSit);
         tasks.addTask(3, aiTempt = new EntityAITempt(this, 0.18F, Item.fishRaw.shiftedIndex, true));

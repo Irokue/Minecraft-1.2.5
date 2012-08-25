@@ -1,9 +1,5 @@
 package net.minecraft.src;
 
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.Random;
 import net.minecraft.client.Minecraft;
 
@@ -42,24 +38,8 @@ public class EntityPlayerSP extends EntityPlayer
 
         if (par3Session != null && par3Session.username != null && par3Session.username.length() > 0)
         {
-        	if(mc.gameSettings.hdSkins){
-		    	try{
-		        	URL url = new URL((new StringBuilder()).append("http://launcher.sweetcraft.fr/skins/").append(par3Session.username).append(".png").toString());
-					HttpURLConnection huc = (HttpURLConnection) url.openConnection();
-					huc.setRequestMethod ("GET");  //OR  huc.setRequestMethod ("HEAD"); 
-					huc.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 6.0; en-US; rv:1.9.1.2) Gecko/20090729 Firefox/3.5.2 (.NET CLR 3.5.30729)");
-					huc.connect () ; 
-					if(huc.getResponseCode() == HttpURLConnection.HTTP_OK){
-						skinUrl = (new StringBuilder()).append("http://launcher.sweetcraft.fr/skins/").append(par3Session.username).append(".png").toString();
-					}else{
-						skinUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftSkins/").append(par3Session.username).append(".png").toString();
-					}
-		        } catch(Exception e){System.out.println("fail");}
-        	}else{
-				skinUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftSkins/").append(par3Session.username).append(".png").toString();
-        	}
+            skinUrl = (new StringBuilder()).append("http://s3.amazonaws.com/MinecraftSkins/").append(par3Session.username).append(".png").toString();
         }
-        	
 
         username = par3Session.username;
     }
@@ -206,7 +186,7 @@ public class EntityPlayerSP extends EntityPlayer
         boolean flag = movementInput.jump;
         float f = 0.8F;
         boolean flag1 = movementInput.moveForward >= f;
-        movementInput.updatePlayerMoveState();
+        movementInput.func_52013_a();
 
         if (isUsingItem())
         {
@@ -314,7 +294,7 @@ public class EntityPlayerSP extends EntityPlayer
 
         if (capabilities.isFlying)
         {
-            f *= 1.2F;
+            f *= 1.1F;
         }
 
         f *= ((landMovementFactor * getSpeedModifier()) / speedOnGround + 1.0F) / 2.0F;
@@ -382,11 +362,6 @@ public class EntityPlayerSP extends EntityPlayer
         mc.displayGuiScreen(new GuiChest(inventory, par1IInventory));
     }
 
-    public void displayGUISac(ItemStack par1ItemStack)
-    {
-        //mc.displayGuiScreen(new Guisac(inventory, par1ItemStack));
-    	mc.displayGuiScreen(new GuiSac(inventory, new InventorySac(par1ItemStack, this),par1ItemStack));
-    }
     /**
      * Displays the crafting GUI for a workbench.
      */
@@ -425,7 +400,7 @@ public class EntityPlayerSP extends EntityPlayer
     }
 
     /**
-     * Called when the player performs a critical hit on the Entity. Args: entity that was hit critically
+     * is called when the player performs a critical hit on the Entity. Args: entity that was hit critically
      */
     public void onCriticalHit(Entity par1Entity)
     {
