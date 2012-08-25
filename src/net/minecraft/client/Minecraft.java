@@ -10,107 +10,8 @@ import java.awt.Graphics;
 import java.io.File;
 import java.io.PrintStream;
 import java.text.DecimalFormat;
-import net.minecraft.src.Achievement;
-import net.minecraft.src.AchievementList;
-import net.minecraft.src.AnvilSaveConverter;
-import net.minecraft.src.AxisAlignedBB;
-import net.minecraft.src.Block;
-import net.minecraft.src.BlockGrass;
-import net.minecraft.src.ChunkCoordinates;
-import net.minecraft.src.ChunkProviderLoadOrGenerate;
-import net.minecraft.src.ColorizerFoliage;
-import net.minecraft.src.ColorizerGrass;
-import net.minecraft.src.ColorizerWater;
-import net.minecraft.src.Container;
-import net.minecraft.src.EffectRenderer;
-import net.minecraft.src.EntityClientPlayerMP;
-import net.minecraft.src.EntityLiving;
-import net.minecraft.src.EntityPlayer;
-import net.minecraft.src.EntityPlayerSP;
-import net.minecraft.src.EntityRenderer;
-import net.minecraft.src.EnumMovingObjectType;
-import net.minecraft.src.EnumOS2;
-import net.minecraft.src.EnumOSMappingHelper;
-import net.minecraft.src.EnumOptions;
-import net.minecraft.src.FontRenderer;
-import net.minecraft.src.GLAllocation;
-import net.minecraft.src.GameSettings;
-import net.minecraft.src.GameWindowListener;
-import net.minecraft.src.GuiAchievement;
-import net.minecraft.src.GuiChat;
-import net.minecraft.src.GuiConflictWarning;
-import net.minecraft.src.GuiConnecting;
-import net.minecraft.src.GuiErrorScreen;
-import net.minecraft.src.GuiGameOver;
-import net.minecraft.src.GuiIngame;
-import net.minecraft.src.GuiIngameMenu;
-import net.minecraft.src.GuiInventory;
-import net.minecraft.src.GuiMainMenu;
-import net.minecraft.src.GuiMemoryErrorScreen;
-import net.minecraft.src.GuiParticle;
-import net.minecraft.src.GuiScreen;
-import net.minecraft.src.GuiSleepMP;
-import net.minecraft.src.ISaveFormat;
-import net.minecraft.src.InventoryPlayer;
-import net.minecraft.src.Item;
-import net.minecraft.src.ItemBlock;
-import net.minecraft.src.ItemRenderer;
-import net.minecraft.src.ItemStack;
-import net.minecraft.src.KeyBinding;
-import net.minecraft.src.LoadingScreenRenderer;
-import net.minecraft.src.MathHelper;
-import net.minecraft.src.MinecraftError;
-import net.minecraft.src.MinecraftException;
-import net.minecraft.src.MinecraftImpl;
-import net.minecraft.src.ModelBiped;
-import net.minecraft.src.MouseHelper;
-import net.minecraft.src.MovementInputFromOptions;
-import net.minecraft.src.MovingObjectPosition;
-import net.minecraft.src.NetClientHandler;
-import net.minecraft.src.OpenGlCapsChecker;
-import net.minecraft.src.OpenGlHelper;
-import net.minecraft.src.Packet3Chat;
-import net.minecraft.src.PlayerCapabilities;
-import net.minecraft.src.PlayerController;
-import net.minecraft.src.PlayerUsageSnooper;
-import net.minecraft.src.Profiler;
-import net.minecraft.src.ProfilerResult;
-import net.minecraft.src.RenderBlocks;
-import net.minecraft.src.RenderEngine;
-import net.minecraft.src.RenderGlobal;
-import net.minecraft.src.RenderManager;
-import net.minecraft.src.ScaledResolution;
-import net.minecraft.src.ScreenShotHelper;
-import net.minecraft.src.Session;
-import net.minecraft.src.SoundManager;
-import net.minecraft.src.StatCollector;
-import net.minecraft.src.StatFileWriter;
-import net.minecraft.src.StatList;
-import net.minecraft.src.StatStringFormatKeyInv;
-import net.minecraft.src.StringTranslate;
-import net.minecraft.src.Teleporter;
-import net.minecraft.src.Tessellator;
-import net.minecraft.src.TextureCompassFX;
-import net.minecraft.src.TextureFlamesFX;
-import net.minecraft.src.TextureLavaFX;
-import net.minecraft.src.TextureLavaFlowFX;
-import net.minecraft.src.TexturePackList;
-import net.minecraft.src.TexturePortalFX;
-import net.minecraft.src.TextureWatchFX;
-import net.minecraft.src.TextureWaterFX;
-import net.minecraft.src.TextureWaterFlowFX;
-import net.minecraft.src.ThreadCheckHasPaid;
-import net.minecraft.src.ThreadClientSleep;
-import net.minecraft.src.ThreadDownloadResources;
-import net.minecraft.src.Timer;
-import net.minecraft.src.UnexpectedThrowable;
-import net.minecraft.src.Vec3D;
-import net.minecraft.src.World;
-import net.minecraft.src.WorldInfo;
-import net.minecraft.src.WorldProvider;
-import net.minecraft.src.WorldRenderer;
-import net.minecraft.src.WorldSettings;
-import net.minecraft.src.WorldType;
+import net.minecraft.src.*;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.Sys;
 import org.lwjgl.input.Controllers;
@@ -129,7 +30,7 @@ public abstract class Minecraft implements Runnable
     /**
      * Set to 'this' in Minecraft constructor; used by some settings get methods
      */
-    private static Minecraft theMinecraft;
+    public static Minecraft theMinecraft;
     public PlayerController playerController;
     private boolean fullscreen;
     private boolean hasCrashed;
@@ -184,6 +85,9 @@ public abstract class Minecraft implements Runnable
     /** Mouse left click counter */
     private int leftClickCounter;
 
+    /** Player's username */
+    public static String playerName;
+    
     /** Display width */
     private int tempDisplayWidth;
 
@@ -272,6 +176,8 @@ public abstract class Minecraft implements Runnable
 
     /** Join player counter */
     private int joinPlayerCounter;
+    
+    public EntityOtherPlayerMP lastInteractedEntity;
 
     public Minecraft(Component par1Component, Canvas par2Canvas, MinecraftApplet par3MinecraftApplet, int par4, int par5, boolean par6)
     {
@@ -437,7 +343,7 @@ public abstract class Minecraft implements Runnable
             exception.printStackTrace();
         }
 
-        func_52004_D();
+        createAndSendReport();
         checkGLError("Pre startup");
         GL11.glEnable(GL11.GL_TEXTURE_2D);
         GL11.glShadeModel(GL11.GL_SMOOTH);
@@ -1384,7 +1290,7 @@ public abstract class Minecraft implements Runnable
         {
             if (par1 == 0)
             {
-                playerController.attackEntity(thePlayer, objectMouseOver.entityHit);
+            	playerController.attackEntity(thePlayer, objectMouseOver.entityHit);
             }
 
             if (par1 == 1)
@@ -1438,7 +1344,7 @@ public abstract class Minecraft implements Runnable
             {
                 entityRenderer.itemRenderer.func_9450_c();
             }
-        }
+       }
     }
 
     /**
@@ -1804,9 +1710,17 @@ public abstract class Minecraft implements Runnable
             while (true);
 
             for (; gameSettings.keyBindInventory.isPressed(); displayGuiScreen(new GuiInventory(thePlayer))) { }
+            
+            for (; isMultiplayerWorld() && gameSettings.keyBindSweetcraft.isPressed(); displayGuiScreen(new GuiUtils(this, theWorld, thePlayer))) {
+            	getSendQueue().addToSendQueue(new Packet133Money(thePlayer));
+            	getSendQueue().addToSendQueue(new Packet134Job(thePlayer));
+            	getSendQueue().addToSendQueue(new Packet135Guilde(thePlayer));
+            }
 
             for (; gameSettings.keyBindDrop.isPressed(); thePlayer.dropOneItem()) { }
-
+            for (; gameSettings.keyBindQuests.isPressed() && isMultiplayerWorld(); displayGuiScreen(new GuiQuests(this, theWorld, thePlayer))){
+            	getSendQueue().addToSendQueue(new Packet136Quest(thePlayer));
+            }
             for (; isMultiplayerWorld() && gameSettings.keyBindChat.isPressed(); displayGuiScreen(new GuiChat())) { }
 
             if (isMultiplayerWorld() && currentScreen == null && (Keyboard.isKeyDown(53) || Keyboard.isKeyDown(181)))
@@ -2451,12 +2365,14 @@ public abstract class Minecraft implements Runnable
         if (s != null && par1Str != null)
         {
             minecraftimpl.session = new Session(s, par1Str);
+            playerName = minecraftimpl.session.username;
         }
         else
         {
             minecraftimpl.session = new Session((new StringBuilder()).append("Player").append(System.currentTimeMillis() % 1000L).toString(), "");
+            playerName = minecraftimpl.session.username;
         }
-
+        
         if (par2Str != null)
         {
             String as[] = par2Str.split(":");
@@ -2487,8 +2403,8 @@ public abstract class Minecraft implements Runnable
     {
         String s = null;
         String s1 = null;
-        s = (new StringBuilder()).append("Player").append(System.currentTimeMillis() % 1000L).toString();
-
+        s = (new StringBuilder()).append("Rynzou").append(System.currentTimeMillis() % 1000L).toString();
+      
         if (par0ArrayOfStr.length > 0)
         {
             s = par0ArrayOfStr[0];
@@ -2551,12 +2467,12 @@ public abstract class Minecraft implements Runnable
             {
                 if (i == Block.grass.blockID)
                 {
-                    i = Block.dirt.blockID;
+                    i = Block.grass.blockID;
                 }
 
                 if (i == Block.stairDouble.blockID)
                 {
-                    i = Block.stairSingle.blockID;
+                    i = Block.stairDouble.blockID;
                 }
 
                 if (i == Block.bedrock.blockID)
@@ -2595,23 +2511,29 @@ public abstract class Minecraft implements Runnable
         }
     }
 
-    public static String func_52003_C()
+    /**
+     * Returns the client version string
+     */
+    public static String getVersion()
     {
         return "1.2.5";
     }
 
-    public static void func_52004_D()
+    /**
+     * Creates and sends anonymous system information to Mojang's stats server
+     */
+    public static void createAndSendReport()
     {
         PlayerUsageSnooper playerusagesnooper = new PlayerUsageSnooper("client");
-        playerusagesnooper.func_52022_a("version", func_52003_C());
-        playerusagesnooper.func_52022_a("os_name", System.getProperty("os.name"));
-        playerusagesnooper.func_52022_a("os_version", System.getProperty("os.version"));
-        playerusagesnooper.func_52022_a("os_architecture", System.getProperty("os.arch"));
-        playerusagesnooper.func_52022_a("memory_total", Long.valueOf(Runtime.getRuntime().totalMemory()));
-        playerusagesnooper.func_52022_a("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
-        playerusagesnooper.func_52022_a("java_version", System.getProperty("java.version"));
-        playerusagesnooper.func_52022_a("opengl_version", GL11.glGetString(GL11.GL_VERSION));
-        playerusagesnooper.func_52022_a("opengl_vendor", GL11.glGetString(GL11.GL_VENDOR));
-        playerusagesnooper.func_52021_a();
+        playerusagesnooper.addData("version", getVersion());
+        playerusagesnooper.addData("os_name", System.getProperty("os.name"));
+        playerusagesnooper.addData("os_version", System.getProperty("os.version"));
+        playerusagesnooper.addData("os_architecture", System.getProperty("os.arch"));
+        playerusagesnooper.addData("memory_total", Long.valueOf(Runtime.getRuntime().totalMemory()));
+        playerusagesnooper.addData("memory_max", Long.valueOf(Runtime.getRuntime().maxMemory()));
+        playerusagesnooper.addData("java_version", System.getProperty("java.version"));
+        playerusagesnooper.addData("opengl_version", GL11.glGetString(GL11.GL_VERSION));
+        playerusagesnooper.addData("opengl_vendor", GL11.glGetString(GL11.GL_VENDOR));
+        playerusagesnooper.sendReport();
     }
 }

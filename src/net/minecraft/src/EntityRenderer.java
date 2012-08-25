@@ -375,14 +375,6 @@ public class EntityRenderer
 
         boolean flag = false;
 
-        if (mc.gameSettings.ofKeyBindZoom.keyCode < 0)
-        {
-            flag = Mouse.isButtonDown(mc.gameSettings.ofKeyBindZoom.keyCode + 100);
-        }
-        else
-        {
-            flag = Keyboard.isKeyDown(mc.gameSettings.ofKeyBindZoom.keyCode);
-        }
 
         if (flag)
         {

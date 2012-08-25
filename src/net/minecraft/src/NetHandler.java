@@ -23,6 +23,22 @@ public abstract class NetHandler
     {
     }
 
+    public void handleJob(Packet134Job packet){
+    	registerPacket(packet);
+    }
+
+    public void handleMoney(Packet133Money packet){
+    	registerPacket(packet);
+    }
+    
+    public void handleGuilde(Packet135Guilde packet){
+    	registerPacket(packet);
+    }
+
+    public void handleQuests(Packet136Quest packet){
+    	registerPacket(packet);
+    }
+    
     public void handleKickDisconnect(Packet255KickDisconnect par1Packet255KickDisconnect)
     {
         registerPacket(par1Packet255KickDisconnect);
@@ -381,7 +397,10 @@ public abstract class NetHandler
         registerPacket(par1Packet132TileEntityData);
     }
 
-    public void func_50100_a(Packet202PlayerAbilities par1Packet202PlayerAbilities)
+    /**
+     * Handle a player abilities packet.
+     */
+    public void handlePlayerAbilities(Packet202PlayerAbilities par1Packet202PlayerAbilities)
     {
         registerPacket(par1Packet202PlayerAbilities);
     }

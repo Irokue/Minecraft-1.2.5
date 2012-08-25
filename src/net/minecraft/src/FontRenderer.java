@@ -153,11 +153,6 @@ public class FontRenderer
             }
             while (true);
 
-            if (i1 == 65)
-            {
-                i1 = i1;
-            }
-
             if (i1 == 32)
             {
                 j2 = (int)(1.5D * (double)f);
@@ -427,8 +422,8 @@ public class FontRenderer
             par1Str = bidiReorder(par1Str);
         }
 
-        int i = func_50101_a(par1Str, par2 + 1, par3 + 1, par4, true);
-        i = Math.max(i, func_50101_a(par1Str, par2, par3, par4, false));
+        int i = renderString(par1Str, par2 + 1, par3 + 1, par4, true);
+        i = Math.max(i, renderString(par1Str, par2, par3, par4, false));
         return i;
     }
 
@@ -442,7 +437,7 @@ public class FontRenderer
             par1Str = bidiReorder(par1Str);
         }
 
-        func_50101_a(par1Str, par2, par3, par4, false);
+        renderString(par1Str, par2, par3, par4, false);
     }
 
     /**
@@ -661,7 +656,7 @@ public class FontRenderer
         }
     }
 
-    public int func_50101_a(String par1Str, int par2, int par3, int par4, boolean par5)
+    public int renderString(String par1Str, int par2, int par3, int par4, boolean par5)
     {
         if (par1Str != null)
         {
@@ -778,12 +773,12 @@ public class FontRenderer
         }
     }
 
-    public String func_50107_a(String par1Str, int par2)
+    public String trimStringToWidth(String par1Str, int par2)
     {
-        return func_50104_a(par1Str, par2, false);
+        return trimStringToWidth(par1Str, par2, false);
     }
 
-    public String func_50104_a(String par1Str, int par2, boolean par3)
+    public String trimStringToWidth(String par1Str, int par2, boolean par3)
     {
         StringBuilder stringbuilder = new StringBuilder();
         float f = 0.0F;
@@ -879,7 +874,7 @@ public class FontRenderer
             for (int i = 0; i < as.length; i++)
             {
                 renderSplitStringNoShadow(as[i], par2, par3, par4, par5);
-                par3 += splitStringWidth(as[i], par4);
+                par3 += splitStringWidth(as[i], par4) + FONT_HEIGHT*2 + 7;
             }
 
             return;
@@ -918,8 +913,8 @@ public class FontRenderer
                     s = (new StringBuilder()).append("\247").append(s2.charAt(s2.lastIndexOf("\247") + 1)).toString();
                 }
 
-                func_50101_a(s2, par2, par3, par5, par6);
-                par3 += FONT_HEIGHT;
+                renderString(s2, par2, par3, par5, par6);
+                par3 += FONT_HEIGHT + 7;
             }
 
             if (getStringWidth(s1.trim()) > 0)
@@ -929,8 +924,8 @@ public class FontRenderer
                     s = (new StringBuilder()).append("\247").append(s1.charAt(s1.lastIndexOf("\247") + 1)).toString();
                 }
 
-                func_50101_a(s1, par2, par3, par5, par6);
-                par3 += FONT_HEIGHT;
+                renderString(s1, par2, par3, par5, par6);
+                par3 += FONT_HEIGHT + 7;
             }
         }
         while (true);
@@ -1015,14 +1010,14 @@ public class FontRenderer
         bidiFlag = par1;
     }
 
-    public java.util.List func_50108_c(String par1Str, int par2)
+    public java.util.List listFormattedStringToWidth(String par1Str, int par2)
     {
-        return Arrays.asList(func_50113_d(par1Str, par2).split("\n"));
+        return Arrays.asList(wrapFormattedStringToWidth(par1Str, par2).split("\n"));
     }
 
-    String func_50113_d(String par1Str, int par2)
+    String wrapFormattedStringToWidth(String par1Str, int par2)
     {
-        int i = func_50102_e(par1Str, par2);
+        int i = sizeStringToWidth(par1Str, par2);
 
         if (par1Str.length() <= i)
         {
@@ -1032,11 +1027,11 @@ public class FontRenderer
         {
             String s = par1Str.substring(0, i);
             String s1 = (new StringBuilder()).append(func_50114_c(s)).append(par1Str.substring(i + (par1Str.charAt(i) == ' ' ? 1 : 0))).toString();
-            return (new StringBuilder()).append(s).append("\n").append(func_50113_d(s1, par2)).toString();
+            return (new StringBuilder()).append(s).append("\n").append(sizeStringToWidth(s1, par2)).toString();
         }
     }
 
-    private int func_50102_e(String par1Str, int par2)
+    private int sizeStringToWidth(String par1Str, int par2)
     {
         int i = par1Str.length();
         float f = 0.0F;
@@ -1153,7 +1148,7 @@ public class FontRenderer
         return s;
     }
 
-    public static String func_52014_d(String par0Str)
+    public static String stripColorCodes(String par0Str)
     {
         return field_52015_r.matcher(par0Str).replaceAll("");
     }

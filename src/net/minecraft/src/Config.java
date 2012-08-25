@@ -31,11 +31,11 @@ import org.lwjgl.util.glu.GLU;
 
 public class Config
 {
-    public static final String OF_NAME = "OptiFine";
+    public static final String OF_NAME = "OptiSweet";
     public static final String MC_VERSION = "1.2.5";
     public static final String OF_EDITION = "HD_S";
     public static final String OF_RELEASE = "C3";
-    public static final String VERSION = "OptiFine_1.2.5_HD_S_C3";
+    public static final String VERSION = "OptiSweet_1.2.5_HD_S_C3";
     private static String newRelease = null;
     private static GameSettings gameSettings = null;
     private static Minecraft minecraft = null;
@@ -64,7 +64,7 @@ public class Config
 
     public static String getVersion()
     {
-        return "OptiFine_1.2.5_HD_S_C3";
+        return "OptiSweet_1.2.5_HD_S_C3";
     }
 
     private static void checkOpenGlCaps()

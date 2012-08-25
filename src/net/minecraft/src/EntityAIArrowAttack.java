@@ -81,7 +81,7 @@ public class EntityAIArrowAttack extends EntityAIBase
     {
         double d = 100D;
         double d1 = entityHost.getDistanceSq(attackTarget.posX, attackTarget.boundingBox.minY, attackTarget.posZ);
-        boolean flag = entityHost.func_48090_aM().canSee(attackTarget);
+        boolean flag = entityHost.getEntitySenses().canSee(attackTarget);
 
         if (flag)
         {

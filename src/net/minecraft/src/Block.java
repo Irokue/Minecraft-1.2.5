@@ -154,6 +154,38 @@ public class Block
     public static final Block redstoneLampIdle;
     public static final Block redstoneLampActive;
 
+    
+    /**AJOUTS BLOCKS
+     */
+    
+    public static final Block chaise;
+    public static final Block table;
+    public static final Block X;
+    public static final Block blockCoal;
+    public static final Block blockRedstone;
+    public static final Block blockRedstoneGlowing;
+    public static final Block grappeCrops;
+    public static final Block foin;
+    public static final Block stairsFoin;
+    public static final Block CropsOrge;
+    public static final Block nuage;
+    public static final Block tapis;
+    public static final Block highWood;
+    public static final Block highStone;
+    public static final Block barriereBrique;
+    public static final Block demiDalleLaine;
+    public static final Block demiDalleLaineEnvers;
+    public static final Block dalleLaine;
+    public static final Block leavesPommier;
+	public static final Block blocCanne;
+    public static final BlockFlower plantAdd;
+    public static final BlockFlower plantAddd;
+    public static final BlockFlower plantAdddd;
+    public static final BlockFlower plantAddddd;
+    public static final Block cible;
+    
+    
+    
     /**
      * The index of the texture to be displayed for this block. May vary based on graphics settings. Mostly seems to
      * come from terrain.png, and the index is 0-based (grass is 0).
@@ -417,7 +449,7 @@ public class Block
     }
 
     /**
-     * 'Goes straight to getLightBrightnessForSkyBlocks for Blocks, does some fancy computing for Fluids'
+     * Goes straight to getLightBrightnessForSkyBlocks for Blocks, does some fancy computing for Fluids
      */
     public int getMixedBrightnessForBlock(IBlockAccess par1IBlockAccess, int par2, int par3, int par4)
     {
@@ -1024,7 +1056,7 @@ public class Block
         par2EntityPlayer.addStat(StatList.mineBlockStatArray[blockID], 1);
         par2EntityPlayer.addExhaustion(0.025F);
 
-        if (func_50074_q() && EnchantmentHelper.getSilkTouchModifier(par2EntityPlayer.inventory))
+        if (canSilkHarvest() && EnchantmentHelper.getSilkTouchModifier(par2EntityPlayer.inventory))
         {
             ItemStack itemstack = createStackedBlock(par6);
 
@@ -1040,7 +1072,10 @@ public class Block
         }
     }
 
-    protected boolean func_50074_q()
+    /**
+     * Return true if a player with SlikTouch can harvest this block directly, and not it's normal drops.
+     */
+    protected boolean canSilkHarvest()
     {
         return renderAsNormalBlock() && !isBlockContainer;
     }
@@ -1219,7 +1254,7 @@ public class Block
         bookShelf = (new BlockBookshelf(47, 35)).setHardness(1.5F).setStepSound(soundWoodFootstep).setBlockName("bookshelf");
         cobblestoneMossy = (new Block(48, 36, Material.rock)).setHardness(2.0F).setResistance(10F).setStepSound(soundStoneFootstep).setBlockName("stoneMoss");
         obsidian = (new BlockObsidian(49, 37)).setHardness(50F).setResistance(2000F).setStepSound(soundStoneFootstep).setBlockName("obsidian");
-        torchWood = (new BlockTorch(50, 80)).setHardness(0.0F).setLightValue(0.9375F).setStepSound(soundWoodFootstep).setBlockName("torch").setRequiresSelfNotify();
+        torchWood = (new BlockTorch(50, 80)).setHardness(0.0F).setLightValue(1F).setStepSound(soundWoodFootstep).setBlockName("torch").setRequiresSelfNotify();
         fire = (BlockFire)(new BlockFire(51, 31)).setHardness(0.0F).setLightValue(1.0F).setStepSound(soundWoodFootstep).setBlockName("fire").disableStats();
         mobSpawner = (new BlockMobSpawner(52, 65)).setHardness(5F).setStepSound(soundMetalFootstep).setBlockName("mobSpawner").disableStats();
         stairCompactPlanks = (new BlockStairs(53, planks)).setBlockName("stairsWood").setRequiresSelfNotify();
@@ -1294,6 +1329,39 @@ public class Block
         dragonEgg = (new BlockDragonEgg(122, 167)).setHardness(3F).setResistance(15F).setStepSound(soundStoneFootstep).setLightValue(0.125F).setBlockName("dragonEgg");
         redstoneLampIdle = (new BlockRedstoneLight(123, false)).setHardness(0.3F).setStepSound(soundGlassFootstep).setBlockName("redstoneLight");
         redstoneLampActive = (new BlockRedstoneLight(124, true)).setHardness(0.3F).setStepSound(soundGlassFootstep).setBlockName("redstoneLight");
+       
+        
+        /** INI.BLOCKS
+         */
+        
+        chaise = (new BlockChaise(125, 4)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("chaise").setRequiresSelfNotify();
+        table = (new BlockTable(126, 4)).setHardness(2.0F).setResistance(5F).setStepSound(soundWoodFootstep).setBlockName("table").setRequiresSelfNotify();
+        X = (new BlockX(127, 173)).setHardness(99999999999F).setBlockUnbreakable().setStepSound(soundGlassFootstep).setBlockName("x");
+        blockCoal = (new BlockOreStorage(128, 168)).setHardness(5F).setResistance(10F).setStepSound(soundMetalFootstep).setBlockName("blockCoal");
+        blockRedstone = (new BlockRedstoneBlock(129, 169, false)).setHardness(5F).setResistance(10F).setStepSound(soundMetalFootstep).setBlockName("blockRedstone");
+        blockRedstoneGlowing = (new BlockRedstoneBlock(130, 169, true)).setLightValue(0.625F).setHardness(5F).setResistance(10F).setStepSound(soundMetalFootstep).setBlockName("blockRedstone").setRequiresSelfNotify();
+        grappeCrops = (new BlockGrappeCrops(131, 170)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("grappeCrops").disableStats().setRequiresSelfNotify();
+        foin = (new Block(132, 200, Material.cloth)).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("foin");
+        stairsFoin = (new BlockStairs(133, foin)).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("stairsFoin");
+        CropsOrge = (new BlockCropsOrge(134, 184)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("OrgeCrops").disableStats().setRequiresSelfNotify();
+        nuage = (new BlockNuage(135,201,Material.cloth,false)).setBlockUnbreakable().setResistance(6000000F).setStepSound(soundClothFootstep).setBlockName("Nuage");
+        tapis = (new BlockTapis(136, 64)).setHardness(0.5F).setStepSound(soundClothFootstep).setBlockName("Tapis").setLightOpacity(0);
+        highWood = (new Block(137, 25, Material.cloth)).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("foin");
+        highStone = (new Block(138, 109, Material.rock)).setHardness(2.0F).setResistance(9F).setStepSound(soundWoodFootstep).setBlockName("highWood").setRequiresSelfNotify();
+        barriereBrique = (new BlockFence(139, 7, Material.rock)).setHardness(2.0F).setResistance(10F).setStepSound(soundStoneFootstep).setBlockName("barriereBrique");
+        dalleLaine = (new BlockDalleLaine(140,true)).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("demiDalleLaine");
+        demiDalleLaine = (new BlockDalleLaine(141,false)).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("demiDalleLaine");
+        demiDalleLaineEnvers = (new BlockDalleLaineEnvers(142,false)).setHardness(0.8F).setStepSound(soundClothFootstep).setBlockName("demiDalleLaine");
+        leavesPommier =(new BlockLeavesPommier(143, 232)).setHardness(0.2F).setLightOpacity(1).setStepSound(soundGrassFootstep).setBlockName("leaves").setRequiresSelfNotify();
+		blocCanne = new Block(144, 233,Material.plants).setHardness(1.5F).setResistance(5F).setStepSound(soundStoneFootstep).setBlockName("blocCanne");
+		plantAdd = (BlockFlower)(new BlockFlower(145, 216)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower1");
+        plantAddd = (BlockFlower)(new BlockFlower(146, 217)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower2");
+        plantAdddd = (BlockFlower)(new BlockFlower(147, 218)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower3");
+        plantAddddd = (BlockFlower)(new BlockFlower(148, 219)).setHardness(0.0F).setStepSound(soundGrassFootstep).setBlockName("flower4");
+        cible = new BlockCible(149,234).setHardness(0.5F).setStepSound(soundWoodFootstep).setBlockName("cible").setRequiresSelfNotify();
+        
+        
+        Item.itemsList[tapis.blockID] = new ItemTapis(tapis.blockID - 256);
         Item.itemsList[cloth.blockID] = (new ItemCloth(cloth.blockID - 256)).setItemName("cloth");
         Item.itemsList[wood.blockID] = (new ItemMetadata(wood.blockID - 256, wood)).setItemName("log");
         Item.itemsList[planks.blockID] = (new ItemMetadata(planks.blockID - 256, planks)).setItemName("wood");
@@ -1303,6 +1371,7 @@ public class Block
         Item.itemsList[sapling.blockID] = (new ItemSapling(sapling.blockID - 256)).setItemName("sapling");
         Item.itemsList[leaves.blockID] = (new ItemLeaves(leaves.blockID - 256)).setItemName("leaves");
         Item.itemsList[vine.blockID] = new ItemColored(vine.blockID - 256, false);
+        Item.itemsList[demiDalleLaine.blockID] = new ItemSlabLaine(demiDalleLaine.blockID - 256);
         Item.itemsList[tallGrass.blockID] = (new ItemColored(tallGrass.blockID - 256, true)).setBlockNames(new String[]
                 {
                     "shrub", "grass", "fern"
@@ -1310,7 +1379,9 @@ public class Block
         Item.itemsList[waterlily.blockID] = new ItemLilyPad(waterlily.blockID - 256);
         Item.itemsList[pistonBase.blockID] = new ItemPiston(pistonBase.blockID - 256);
         Item.itemsList[pistonStickyBase.blockID] = new ItemPiston(pistonStickyBase.blockID - 256);
-
+        
+        
+        
         for (int i = 0; i < 256; i++)
         {
             if (blocksList[i] == null)
@@ -1335,6 +1406,13 @@ public class Block
             {
                 flag = true;
             }
+            if (i > 0 && blocksList[i].getRenderType() == 30){
+            	flag = true;
+            }
+            
+            if(i > 0 && (blocksList[i] instanceof BlockChaise)){
+            	flag = true;
+            }
 
             if (i == tilledField.blockID)
             {
@@ -1342,6 +1420,10 @@ public class Block
             }
 
             if (canBlockGrass[i])
+            {
+                flag = true;
+            }
+            if (i > 0 && (blocksList[i] instanceof BlockDalleLaine))
             {
                 flag = true;
             }

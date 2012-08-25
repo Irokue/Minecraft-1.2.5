@@ -13,18 +13,21 @@ class ContainerCreative extends Container
         Block ablock[] =
         {
             Block.cobblestone, Block.stone, Block.oreDiamond, Block.oreGold, Block.oreIron, Block.oreCoal, Block.oreLapis, Block.oreRedstone, Block.stoneBrick, Block.stoneBrick,
-            Block.stoneBrick, Block.stoneBrick, Block.blockClay, Block.blockDiamond, Block.blockGold, Block.blockSteel, Block.bedrock, Block.blockLapis, Block.brick, Block.cobblestoneMossy,
-            Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.obsidian, Block.netherrack, Block.slowSand, Block.glowStone,
+            Block.stoneBrick, Block.stoneBrick, Block.blockClay, Block.blockDiamond, Block.blockGold, Block.blockSteel, Block.blockCoal, Block.blockRedstone, Block.bedrock, Block.blockLapis, Block.brick, Block.cobblestoneMossy,
+            Block.stairDouble, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairSingle, Block.stairsFoin, Block.foin, Block.obsidian, Block.netherrack, Block.slowSand, Block.glowStone,
             Block.wood, Block.wood, Block.wood, Block.wood, Block.leaves, Block.leaves, Block.leaves, Block.leaves, Block.dirt, Block.grass,
             Block.sand, Block.sandStone, Block.sandStone, Block.sandStone, Block.gravel, Block.web, Block.planks, Block.planks, Block.planks, Block.planks,
-            Block.sapling, Block.sapling, Block.sapling, Block.sapling, Block.deadBush, Block.sponge, Block.ice, Block.blockSnow, Block.plantYellow, Block.plantRed,
+            Block.sapling,Block.sapling, Block.sapling, Block.sapling, Block.sapling, Block.deadBush, Block.sponge, Block.ice, Block.blockSnow, Block.plantYellow, Block.plantRed,
             Block.mushroomBrown, Block.mushroomRed, Block.cactus, Block.melon, Block.pumpkin, Block.pumpkinLantern, Block.vine, Block.fenceIron, Block.thinGlass, Block.netherBrick,
             Block.netherFence, Block.stairsNetherBrick, Block.whiteStone, Block.mycelium, Block.waterlily, Block.tallGrass, Block.tallGrass, Block.chest, Block.workbench, Block.glass,
             Block.tnt, Block.bookShelf, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth,
             Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.cloth, Block.dispenser, Block.stoneOvenIdle,
             Block.music, Block.jukebox, Block.pistonStickyBase, Block.pistonBase, Block.fence, Block.fenceGate, Block.ladder, Block.rail, Block.railPowered, Block.railDetector,
             Block.torchWood, Block.stairCompactPlanks, Block.stairCompactCobblestone, Block.stairsBrick, Block.stairsStoneBrickSmooth, Block.lever, Block.pressurePlateStone, Block.pressurePlatePlanks, Block.torchRedstoneActive, Block.button,
-            Block.trapdoor, Block.enchantmentTable, Block.redstoneLampIdle
+            Block.trapdoor, Block.enchantmentTable, Block.redstoneLampIdle, Block.chaise, Block.table, Block.X, Block.foin, Block.stairsFoin, Block.nuage, 
+            Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,Block.tapis,
+            Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,Block.demiDalleLaine,
+            Block.barriereBrique, Block.plantAdd, Block.plantAddd, Block.plantAdddd, Block.plantAddddd,Block.cible, Block.blocCanne
         };
         int i = 0;
         int j = 0;
@@ -35,7 +38,9 @@ class ContainerCreative extends Container
         int k1 = 0;
         int l1 = 0;
         int i2 = 1;
-
+        int incrementLaine = 0;
+        int incrementTapis = 0;
+       
         for (int j2 = 0; j2 < ablock.length; j2++)
         {
             int i3 = 0;
@@ -67,6 +72,14 @@ class ContainerCreative extends Container
             else if (ablock[j2] == Block.sandStone)
             {
                 i3 = k1++;
+            }
+            else if (ablock[j2] == Block.demiDalleLaine)
+            {
+                i3 = incrementLaine++;
+            }
+            else if (ablock[j2] == Block.tapis)
+            {
+                i3 = incrementTapis++;
             }
             else if (ablock[j2] == Block.tallGrass)
             {

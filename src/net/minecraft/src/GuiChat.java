@@ -17,7 +17,10 @@ public class GuiChat extends GuiScreen
     private int field_50067_h;
     private List field_50068_i;
     private URI field_50065_j;
-    protected GuiTextField field_50064_a;
+    private GuiCheckBox checkboxGlobal, checkboxLocal, checkboxCommerce;
+
+    /** Chat entry field */
+    protected GuiTextField inputField;
     private String field_50066_k;
 
     public GuiChat()
@@ -53,13 +56,20 @@ public class GuiChat extends GuiScreen
     public void initGui()
     {
         Keyboard.enableRepeatEvents(true);
-        field_50063_c = mc.ingameGUI.func_50013_c().size();
-        field_50064_a = new GuiTextField(fontRenderer, 4, height - 12, width - 4, 12);
-        field_50064_a.setMaxStringLength(100);
-        field_50064_a.func_50027_a(false);
-        field_50064_a.func_50033_b(true);
-        field_50064_a.setText(field_50066_k);
-        field_50064_a.func_50026_c(false);
+        field_50063_c = mc.ingameGUI.getSentMessageList().size();
+        inputField = new GuiTextField(fontRenderer, 4, height - 12, width - 4, 12);
+        inputField.setMaxStringLength(100);
+        inputField.setEnableBackgroundDrawing(false);
+        inputField.setFocused(true);
+        inputField.setText(field_50066_k);
+        inputField.func_50026_c(false);
+        controlList.add(new GuiButton(1, 5, height - 37, 90, 20, "Options du chat"));
+        /*checkboxGlobal = new GuiCheckBox(1, 2, height - 35, true);
+        checkboxLocal = new GuiCheckBox(2, 24, height - 35, true);
+        checkboxCommerce = new GuiCheckBox(3, 46, height - 35, true);
+        controlList.add(checkboxGlobal);
+        controlList.add(checkboxLocal);
+        controlList.add(checkboxCommerce);*/
     }
 
     /**
@@ -76,7 +86,7 @@ public class GuiChat extends GuiScreen
      */
     public void updateScreen()
     {
-        field_50064_a.updateCursorCounter();
+        inputField.updateCursorCounter();
     }
 
     /**
@@ -99,7 +109,7 @@ public class GuiChat extends GuiScreen
         }
         else if (par2 == 28)
         {
-            String s = field_50064_a.getText().trim();
+            String s = inputField.getText().trim();
 
             if (s.length() > 0 && !mc.lineIsCommand(s))
             {
@@ -118,15 +128,15 @@ public class GuiChat extends GuiScreen
         }
         else if (par2 == 201)
         {
-            mc.ingameGUI.func_50011_a(19);
+            mc.ingameGUI.adjustHistoryOffset(19);
         }
         else if (par2 == 209)
         {
-            mc.ingameGUI.func_50011_a(-19);
+            mc.ingameGUI.adjustHistoryOffset(-19);
         }
         else
         {
-            field_50064_a.func_50037_a(par1, par2);
+            inputField.textboxKeyTyped(par1, par2);
         }
     }
 
@@ -155,15 +165,47 @@ public class GuiChat extends GuiScreen
                 i *= 7;
             }
 
-            mc.ingameGUI.func_50011_a(i);
+            mc.ingameGUI.adjustHistoryOffset(i);
         }
     }
 
+    protected void actionPerformed(GuiButton par1GuiButton){
+    	if(par1GuiButton.id == 1){
+    		mc.displayGuiScreen(new GuiChatOptions(this, mc));
+    	}
+    	/*if(par1GuiButton.id == 1){
+    		if(checkboxGlobal.isChecked()){
+    		checkboxGlobal.setChecked(false);
+    		mc.thePlayer.sendChatMessage("/ch leave g");
+    		}
+    		else {checkboxGlobal.setChecked(true);
+    		mc.thePlayer.sendChatMessage("/ch join g");
+    		}
+    	}else if(par1GuiButton.id == 2){
+    		if(checkboxLocal.isChecked()){
+        		checkboxLocal.setChecked(false);
+        		mc.thePlayer.sendChatMessage("/ch leave l");
+    		}
+    		else {checkboxLocal.setChecked(true);
+    		mc.thePlayer.sendChatMessage("/ch join l");
+    		}
+    	}else if(par1GuiButton.id == 3){
+    		if(checkboxCommerce.isChecked()){
+    			checkboxCommerce.setChecked(false);
+    			mc.thePlayer.sendChatMessage("/ch leave c");
+    		}
+    		else {checkboxCommerce.setChecked(true);
+    		mc.thePlayer.sendChatMessage("/ch join c");
+    		}
+    	}*/
+    }
+    
     /**
      * Called when the mouse is clicked.
      */
     protected void mouseClicked(int par1, int par2, int par3)
     {
+    	
         if (par3 == 0)
         {
             ChatClickData chatclickdata = mc.ingameGUI.func_50012_a(Mouse.getX(), Mouse.getY());
@@ -180,11 +222,11 @@ public class GuiChat extends GuiScreen
                 }
             }
         }
-
-        field_50064_a.mouseClicked(par1, par2, par3);
+        inputField.mouseClicked(par1, par2, par3);
         super.mouseClicked(par1, par2, par3);
     }
 
+    
     public void confirmClicked(boolean par1, int par2)
     {
         if (par2 == 0)
@@ -221,7 +263,7 @@ public class GuiChat extends GuiScreen
     {
         if (field_50060_d)
         {
-            field_50064_a.func_50021_a(-1);
+            inputField.func_50021_a(-1);
 
             if (field_50067_h >= field_50068_i.size())
             {
@@ -230,15 +272,15 @@ public class GuiChat extends GuiScreen
         }
         else
         {
-            int i = field_50064_a.func_50028_c(-1);
+            int i = inputField.func_50028_c(-1);
 
-            if (field_50064_a.func_50035_h() - i < 1)
+            if (inputField.func_50035_h() - i < 1)
             {
                 return;
             }
 
             field_50068_i.clear();
-            field_50061_e = field_50064_a.getText().substring(i);
+            field_50061_e = inputField.getText().substring(i);
             field_50059_f = field_50061_e.toLowerCase();
             Iterator iterator = ((EntityClientPlayerMP)mc.thePlayer).sendQueue.playerNames.iterator();
 
@@ -265,7 +307,7 @@ public class GuiChat extends GuiScreen
 
             field_50060_d = true;
             field_50067_h = 0;
-            field_50064_a.func_50020_b(i - field_50064_a.func_50035_h());
+            inputField.func_50020_b(i - inputField.func_50035_h());
         }
 
         if (field_50068_i.size() > 1)
@@ -286,13 +328,13 @@ public class GuiChat extends GuiScreen
             mc.ingameGUI.addChatMessage(stringbuilder.toString());
         }
 
-        field_50064_a.func_50031_b(((GuiPlayerInfo)field_50068_i.get(field_50067_h++)).name);
+        inputField.func_50031_b(((GuiPlayerInfo)field_50068_i.get(field_50067_h++)).name);
     }
 
     public void func_50058_a(int par1)
     {
         int i = field_50063_c + par1;
-        int j = mc.ingameGUI.func_50013_c().size();
+        int j = mc.ingameGUI.getSentMessageList().size();
 
         if (i < 0)
         {
@@ -312,16 +354,16 @@ public class GuiChat extends GuiScreen
         if (i == j)
         {
             field_50063_c = j;
-            field_50064_a.setText(field_50062_b);
+            inputField.setText(field_50062_b);
             return;
         }
 
         if (field_50063_c == j)
         {
-            field_50062_b = field_50064_a.getText();
+            field_50062_b = inputField.getText();
         }
 
-        field_50064_a.setText((String)mc.ingameGUI.func_50013_c().get(i));
+        inputField.setText((String)mc.ingameGUI.getSentMessageList().get(i));
         field_50063_c = i;
     }
 
@@ -331,7 +373,8 @@ public class GuiChat extends GuiScreen
     public void drawScreen(int par1, int par2, float par3)
     {
         drawRect(2, height - 14, width - 2, height - 2, 0x80000000);
-        field_50064_a.drawTextBox();
+        //fontRenderer.drawString("Test", 2, height - 24, 0xffffff);
+        inputField.drawTextBox();
         super.drawScreen(par1, par2, par3);
     }
 }

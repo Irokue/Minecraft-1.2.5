@@ -2268,14 +2268,6 @@ public class RenderGlobal implements IWorldAccess
                 EntityPlayer entityplayer = (EntityPlayer)par1Entity;
                 ThreadDownloadImageData threaddownloadimagedata = renderEngine.obtainImageData(entityplayer.cloakUrl, new ImageBufferDownload());
                 renderEngine.releaseImageData(entityplayer.cloakUrl);
-                String s = (new StringBuilder()).append("http://optifine.net/capes/").append(entityplayer.username).append(".png").toString();
-                ThreadDownloadImage threaddownloadimage = new ThreadDownloadImage(threaddownloadimagedata, s, new ImageBufferDownload());
-                threaddownloadimage.start();
-
-                if (!Config.isShowCapes())
-                {
-                    entityplayer.playerCloakUrl = "";
-                }
             }
         }
 

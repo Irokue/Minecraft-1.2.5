@@ -11,10 +11,10 @@ public abstract class Packet
     /** Maps packet class to packet id */
     private static Map packetClassToIdMap = new HashMap();
 
-    /** list of the client's packets id */
+    /** List of the client's packet IDs. */
     private static Set clientPacketIdList = new HashSet();
 
-    /** list of the server's packets id */
+    /** List of the server's packet IDs. */
     private static Set serverPacketIdList = new HashSet();
 
     /** the system time in milliseconds when this packet was created. */
@@ -156,7 +156,7 @@ public abstract class Packet
     }
 
     /**
-     * Writes a string to a packet
+     * Writes a String to the DataOutputStream
      */
     public static void writeString(String par0Str, DataOutputStream par1DataOutputStream) throws IOException
     {
@@ -364,6 +364,10 @@ public abstract class Packet
         addIdClassMapping(130, true, true, net.minecraft.src.Packet130UpdateSign.class);
         addIdClassMapping(131, true, false, net.minecraft.src.Packet131MapData.class);
         addIdClassMapping(132, true, false, net.minecraft.src.Packet132TileEntityData.class);
+        addIdClassMapping(133, true, true, net.minecraft.src.Packet133Money.class);
+        addIdClassMapping(134, true, true, net.minecraft.src.Packet134Job.class);
+        addIdClassMapping(135, true, true, net.minecraft.src.Packet135Guilde.class);
+        addIdClassMapping(136, true, true, net.minecraft.src.Packet136Quest.class);
         addIdClassMapping(200, true, false, net.minecraft.src.Packet200Statistic.class);
         addIdClassMapping(201, true, false, net.minecraft.src.Packet201PlayerInfo.class);
         addIdClassMapping(202, true, true, net.minecraft.src.Packet202PlayerAbilities.class);

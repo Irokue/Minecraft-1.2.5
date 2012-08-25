@@ -16,6 +16,10 @@ public class RecipesIngots
                         Block.blockDiamond, new ItemStack(Item.diamond, 9)
                     }, new Object[] {
                         Block.blockLapis, new ItemStack(Item.dyePowder, 9, 4)
+                    }, new Object[] {
+                        Block.blockCoal, new ItemStack(Item.coal, 9)
+                    }, new Object[] {
+                        Block.blockRedstone, new ItemStack(Item.redstone, 9)
                     }
                 });
     }
@@ -38,6 +42,15 @@ public class RecipesIngots
                         "#", '#', block
                     });
         }
+
+        par1CraftingManager.addRecipe(new ItemStack(Block.foin, 3), new Object[]
+                {
+                    "###", "###", "###", '#', Item.wheat
+                });
+        par1CraftingManager.addRecipe(new ItemStack(Item.wheat, 3), new Object[]
+                {
+                    "#", '#', Block.foin
+                });
 
         par1CraftingManager.addRecipe(new ItemStack(Item.ingotGold), new Object[]
                 {

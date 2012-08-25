@@ -129,7 +129,7 @@ public abstract class EntityLiving extends Entity
 
     /** The active target the Task system uses for tracking */
     private EntityLiving attackTarget;
-    private EntitySenses field_48104_at;
+    private EntitySenses senses;
     private float field_48111_au;
     private ChunkCoordinates homePosition;
 
@@ -234,7 +234,7 @@ public abstract class EntityLiving extends Entity
         jumpHelper = new EntityJumpHelper(this);
         bodyHelper = new EntityBodyHelper(this);
         navigator = new PathNavigate(this, par1World, 16F);
-        field_48104_at = new EntitySenses(this);
+        senses = new EntitySenses(this);
         field_9363_r = (float)(Math.random() + 1.0D) * 0.01F;
         setPosition(posX, posY, posZ);
         field_9365_p = (float)Math.random() * 12398F;
@@ -263,9 +263,9 @@ public abstract class EntityLiving extends Entity
         return navigator;
     }
 
-    public EntitySenses func_48090_aM()
+    public EntitySenses getEntitySenses()
     {
-        return field_48104_at;
+        return senses;
     }
 
     public Random getRNG()
@@ -1682,7 +1682,7 @@ public abstract class EntityLiving extends Entity
         despawnEntity();
         Profiler.endSection();
         Profiler.startSection("sensing");
-        field_48104_at.clearSensingCache();
+        senses.clearSensingCache();
         Profiler.endSection();
         Profiler.startSection("targetSelector");
         targetTasks.onUpdateTasks();

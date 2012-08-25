@@ -105,7 +105,7 @@ public class EntityMagmaCube extends EntitySlime
     }
 
     /**
-     * jump, Causes this entity to do an upwards motion (jumping)
+     * Causes this entity to do an upwards motion (jumping).
      */
     protected void jump()
     {

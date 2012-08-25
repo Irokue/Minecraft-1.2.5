@@ -78,7 +78,7 @@ public class World implements IBlockAccess
     /** Option > Difficulty setting (0 - 3) */
     public int difficultySetting;
 
-    /** RNG for world. */
+    /** RNG for World. */
     public Random rand;
 
     /**
@@ -470,7 +470,7 @@ public class World implements IBlockAccess
     }
 
     /**
-     * Saves the data for this World.  If passed true, then only save up to 2 chunks, otherwise, save all chunks.
+     * Saves the data for this World. If passed true, then only save up to 2 chunks, otherwise, save all chunks.
      */
     public void saveWorld(boolean par1, IProgressUpdate par2IProgressUpdate)
     {
@@ -1201,7 +1201,7 @@ public class World implements IBlockAccess
     }
 
     /**
-     * 'Any Light rendered on a 1.8 Block goes through here'
+     * Any Light rendered on a 1.8 Block goes through here
      */
     public int getLightBrightnessForSkyBlocks(int par1, int par2, int par3, int par4)
     {
@@ -1573,7 +1573,8 @@ public class World implements IBlockAccess
     }
 
     /**
-     * Not sure what this does 100%, but from the calling methods this method should be called like this.
+     * Dismounts the entity (and anything riding the entity), sets the dead flag, and removes the player entity from the
+     * player entity list. Called by the playerLoggedOut function.
      */
     public void setEntityDead(Entity par1Entity)
     {
@@ -3099,9 +3100,9 @@ public class World implements IBlockAccess
         {
             ChunkCoordIntPair chunkcoordintpair = (ChunkCoordIntPair)iterator.next();
             int k = chunkcoordintpair.chunkXPos * 16;
-            int l = chunkcoordintpair.chunkZPos * 16;
+            int l = chunkcoordintpair.chunkZPosition * 16;
             Profiler.startSection("getChunk");
-            Chunk chunk = getChunkFromChunkCoords(chunkcoordintpair.chunkXPos, chunkcoordintpair.chunkZPos);
+            Chunk chunk = getChunkFromChunkCoords(chunkcoordintpair.chunkXPos, chunkcoordintpair.chunkZPosition);
             func_48458_a(k, l, chunk);
             Profiler.endStartSection("thunder");
 
@@ -3130,7 +3131,7 @@ public class World implements IBlockAccess
                 int k2 = j1 >> 8 & 0xf;
                 int j3 = getPrecipitationHeight(l1 + k, k2 + l);
 
-                if (isBlockHydratedIndirectly(l1 + k, j3 - 1, k2 + l))
+                if (isBlockFreezableNaturally(l1 + k, j3 - 1, k2 + l))
                 {
                     setBlockWithNotify(l1 + k, j3 - 1, k2 + l, Block.ice.blockID);
                 }
@@ -3176,25 +3177,26 @@ public class World implements IBlockAccess
     }
 
     /**
-     * Checks if the block is hydrating itself.
+     * checks to see if a given block is both water and is cold enough to freeze
      */
-    public boolean isBlockHydratedDirectly(int par1, int par2, int par3)
+    public boolean isBlockFreezable(int par1, int par2, int par3)
     {
-        return isBlockHydrated(par1, par2, par3, false);
+        return canBlockFreeze(par1, par2, par3, false);
     }
 
     /**
-     * Check if the block is being hydrated by an adjacent block.
+     * checks to see if a given block is both water and has at least one immediately adjacent non-water block
      */
-    public boolean isBlockHydratedIndirectly(int par1, int par2, int par3)
+    public boolean isBlockFreezableNaturally(int par1, int par2, int par3)
     {
-        return isBlockHydrated(par1, par2, par3, true);
+        return canBlockFreeze(par1, par2, par3, true);
     }
 
     /**
-     * (I think)
+     * checks to see if a given block is both water, and cold enough to freeze - if the par4 boolean is set, this will
+     * only return true if there is a non-water block immediately adjacent to the specified block
      */
-    public boolean isBlockHydrated(int par1, int par2, int par3, boolean par4)
+    public boolean canBlockFreeze(int par1, int par2, int par3, boolean par4)
     {
         BiomeGenBase biomegenbase = getBiomeGenForCoords(par1, par3);
         float f = biomegenbase.getFloatTemperature();
@@ -3651,7 +3653,7 @@ public class World implements IBlockAccess
         ChunkCoordIntPair chunkcoordintpair = par1Chunk.getChunkCoordIntPair();
         int i = chunkcoordintpair.chunkXPos << 4;
         int j = i + 16;
-        int k = chunkcoordintpair.chunkZPos << 4;
+        int k = chunkcoordintpair.chunkZPosition << 4;
         int l = k + 16;
         Iterator iterator = scheduledTickSet.iterator();
 
@@ -3871,7 +3873,7 @@ public class World implements IBlockAccess
 
     /**
      * Returns true if the specified block can be placed at the given coordinates, optionally making sure there are no
-     * entities in the way.  Args: blockID, x, y, z, ignoreEntities
+     * entities in the way. Args: blockID, x, y, z, ignoreEntities
      */
     public boolean canBlockBePlacedAt(int par1, int par2, int par3, int par4, boolean par5, int par6)
     {

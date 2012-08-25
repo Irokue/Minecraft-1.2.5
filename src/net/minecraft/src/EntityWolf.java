@@ -29,7 +29,7 @@ public class EntityWolf extends EntityTameable
         texture = "/mob/wolf.png";
         setSize(0.6F, 0.8F);
         moveSpeed = 0.3F;
-        getNavigator().func_48664_a(true);
+        getNavigator().setAvoidsWater(true);
         tasks.addTask(1, new EntityAISwimming(this));
         tasks.addTask(2, aiSit);
         tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
@@ -495,7 +495,7 @@ public class EntityWolf extends EntityTameable
     }
 
     /**
-     * gets this wolf's angry state
+     * Determines whether this wolf is angry or not.
      */
     public boolean isAngry()
     {
@@ -503,7 +503,7 @@ public class EntityWolf extends EntityTameable
     }
 
     /**
-     * sets this wolf's angry state to true if the boolean argument is true
+     * Sets whether this wolf is angry or not.
      */
     public void setAngry(boolean par1)
     {
