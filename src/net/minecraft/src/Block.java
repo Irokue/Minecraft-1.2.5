@@ -32,7 +32,7 @@ public class Block
     public static final Block waterStill;
     public static final Block lavaMoving;
 
-    /** Stationary lava source block */
+    /** Stationarytttttttttttttttttttttttt lava source block */
     public static final Block lavaStill;
     public static final Block sand;
     public static final Block gravel;
